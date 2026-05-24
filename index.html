@@ -1,0 +1,2336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ════════════════════════════════════════════════════
+     GUTTED — COMBINED SITE
+     Page 1 : GuttedLive Landing
+     Page 2 : GuttedLive Content
+     Page 3 : Gallery II Landing
+     Page 4 : Gallery II Contents
+     ════════════════════════════════════════════════════ -->
+
+<head>
+    <title>&#9769; GUTTED &#9769;</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+        /* ══════════════════════════════════════════
+           RESET / BASE
+        ══════════════════════════════════════════ */
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+
+        /* ══════════════════════════════════════════
+           1. REVEAL / ENTRY ANIMATIONS
+        ══════════════════════════════════════════ */
+
+        .reveal-text {
+            transition:
+                transform 20s   cubic-bezier(.19, 1, .22, 1),
+                opacity   1s   ease,
+                filter    1s   ease;
+        }
+
+        .reveal-mid {
+            transition:
+                transform 1.6s cubic-bezier(.19, 1, .22, 1),
+                opacity   1.4s ease,
+                filter    1.4s ease;
+        }
+
+        .reveal-slow {
+            transition:
+                transform 2.2s cubic-bezier(.19, 1, .22, 1),
+                opacity   2s   ease,
+                filter    2s   ease;
+        }
+
+        .reveal-show * {
+            transform: translateY(0);
+            opacity: 1;
+            filter: none;
+        }
+
+
+        /* ══════════════════════════════════════════
+           2. CRT / FLICKER EFFECTS
+        ══════════════════════════════════════════ */
+
+        @keyframes flicker {
+            0%   { opacity: 0.278; } 5%   { opacity: 0.348; }
+            10%  { opacity: 0.236; } 15%  { opacity: 0.906; }
+            20%  { opacity: 0.181; } 25%  { opacity: 0.839; }
+            30%  { opacity: 0.656; } 35%  { opacity: 0.678; }
+            40%  { opacity: 0.266; } 45%  { opacity: 0.847; }
+            50%  { opacity: 0.960; } 55%  { opacity: 0.086; }
+            60%  { opacity: 0.203; } 65%  { opacity: 0.720; }
+            70%  { opacity: 0.535; } 75%  { opacity: 0.373; }
+            80%  { opacity: 0.714; } 85%  { opacity: 0.704; }
+            90%  { opacity: 0.700; } 95%  { opacity: 0.361; }
+            100% { opacity: 0.244; }
+        }
+
+        @keyframes textFlicker {
+            0%   { opacity: 1; }
+            50%  { opacity: 0.85; }
+            100% { opacity: 1; }
+        }
+
+        .crt-text { animation: textFlicker 0.12s infinite; }
+
+        body::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            inset: 0;
+            background: rgba(18, 16, 16, 0.1);
+            opacity: 0;
+            z-index: 2;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+            animation: flicker 0.15s infinite;
+        }
+
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+
+        /* ══════════════════════════════════════════
+           3. SCROLL ROOT (full-page panel system)
+        ══════════════════════════════════════════ */
+
+        #SCROLL_ROOT {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            will-change: transform;
+        }
+
+        .panel {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+
+        /* ══════════════════════════════════════════
+           4. PAGE 1 — GUTTEDLIVE LANDING
+        ══════════════════════════════════════════ */
+
+        #PAGE_GUTTED_LANDING {
+            image-rendering: pixelated;
+            background-image:
+                url(https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/BGTAPESTRY.png),
+                url(https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/BGTAPESTRY.png);
+            background-repeat:   repeat-y, repeat-y;
+            background-size:     100% auto, 120% auto;
+            background-position: center 0px, center -200px;
+            background-attachment: scroll;
+        }
+
+        .LANDING_CONTENT {
+            text-align: center;
+            transform: translateY(40px);
+            opacity: 0;
+            transition: all 1.2s ease;
+            position: relative;
+            z-index: 5;
+        }
+
+        .LANDING_CONTENT.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .LANDING_TITLE { font-size: 10px; letter-spacing: 10px; width: 450px; height: 300px; border-radius: 100px; }
+        .LANDING_SUB   { font-size: 20px; letter-spacing: 5px; top: -110px; position: relative; color: #c3b6a5; }
+
+        #SCROLL_DOWN_HINT {
+            position: absolute;
+            bottom: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #c3b6a5;
+            font-size: 15px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            animation: hintBob 2.5s ease-in-out infinite;
+            z-index: 9999;
+            cursor: pointer;
+            font-family: UnifrakturMaguntia, serif;
+        }
+
+        @keyframes hintBob {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
+            50% { transform: translateX(-50%) translateY(10px); opacity: 1; }
+        }
+
+
+        /* ══════════════════════════════════════════
+           5. PAGE 2 — GUTTEDLIVE CONTENT
+        ══════════════════════════════════════════ */
+
+        #PAGE_GUTTED_CONTENT {
+            image-rendering: pixelated;
+            background-image:
+                url(https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/BGTAPESTRY.png),
+                url(https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/BGTAPESTRY.png);
+            background-repeat:   repeat-y, repeat-y;
+            background-size:     100% auto, 120% auto;
+            background-position: center 0px, center -200px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            min-height: 100vh;
+            overflow: visible;
+            padding: 60px 0 120px;
+        }
+
+        /* ── TYPOGRAPHY / LINKS ── */
+        h1 {
+            margin: 10px 50px;
+            color: #B03B11;
+            text-align: center;
+            backdrop-filter: blur(3px);
+            border-radius: 20px;
+            height: 40px;
+        }
+
+        a {
+            color: #c3b6a5;
+            font-weight: bold;
+            text-decoration: none;
+            font-family: UnifrakturMaguntia;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        p.PARAGRAPH {
+            text-align: justify;
+            margin: 10px 50px;
+            padding: 10px;
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+        }
+
+        /* ── STAMPS ── */
+        .STAMPS {
+            inset: 80%;
+            color: #c3b6a5;
+            background-size: cover;
+            filter: sepia(50%) hue-rotate(-10deg);
+            box-shadow:
+                rgba(23,  9,  2, 0.529) 0px -23px 25px 0px inset,
+                rgba(153,151, 5, 0.152) 0px -36px 30px 0px inset,
+                rgba(109, 62,23, 0.699) 0px -79px 40px 0px inset,
+                rgba(0,   0,  0, 0.384) 0px  10px 10px,
+                rgba(73,  26, 8, 0.404) 0px  25px  8px,
+                rgba(109, 67, 9, 0.573) 0px  32px 16px;
+            border-radius: 30px;
+            width: 100%;
+        }
+
+        /* ── NAVBAR ── */
+        #NAVBAR {
+            display: flex;
+            gap: 25px;
+            padding: 10px 20px;
+            backdrop-filter: blur(6px);
+            border-radius: 60px;
+            z-index: 0;
+            margin-bottom: 16px;
+        }
+
+        #NAVBAR a {
+            color: #c3b6a5;
+            font-size: 16px;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        #NAVBAR a:hover {
+            opacity: 0.6;
+            transform: translateY(-2px);
+        }
+
+        /* ── LEFT BOX ── */
+        #LEFTBOX {
+            position: absolute;
+            top: 40%;
+            transform: translateY(-50%);
+            left: 15%;
+            width: 8%;
+            height: 40rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            color: #c3b6a5;
+            background-image: url(https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/BGATTIC.jpg);
+            padding: 18px;
+            filter: sepia(30%) hue-rotate(-10deg);
+            box-shadow:
+                rgba(23,  9,  2, 0.529) 0px -23px 25px 0px inset,
+                rgba(153,151, 5, 0.152) 0px -36px 30px 0px inset,
+                rgba(109, 62,23, 0.699) 0px -79px 40px 0px inset,
+                rgba(0,   0,  0, 0.384) 0px  10px 10px,
+                rgba(73,  26, 8, 0.404) 0px  25px  8px,
+                rgba(109, 67, 9, 0.573) 0px  32px 16px;
+            border-radius: 120px;
+        }
+
+        #LEFTPARAGRAPH {
+            height: 87%;
+            overflow-y: scroll;
+        }
+
+        /* ── RIGHT BOX ── */
+        #RIGHTBOX {
+            position: absolute;
+            top: 40%;
+            transform: translateY(-50%);
+            right: 15%;
+            width: 8%;
+            height: 40rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: justify;
+            color: #c3b6a5;
+            background-image: url(https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERWTWTA.jpg);
+            background-size: cover;
+            background-position: center;
+            padding: 30px;
+            filter: sepia(30%) hue-rotate(-10deg);
+            box-shadow:
+                rgba(23,  9,  2, 0.529) 0px -23px 25px 0px inset,
+                rgba(153,151, 5, 0.152) 0px -36px 30px 0px inset,
+                rgba(109, 62,23, 0.699) 0px -79px 40px 0px inset,
+                rgba(0,   0,  0, 0.384) 0px  10px 10px,
+                rgba(73,  26, 8, 0.404) 0px  25px  8px,
+                rgba(109, 67, 9, 0.573) 0px  32px 16px;
+            border-radius: 120px;
+        }
+
+        #RIGHTBOX_LABEL {
+            font-size: 0.55rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(195, 182, 165, 0.5);
+            margin-bottom: 6px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        #RIGHTBOX_IMAGE {
+            width: 100%;
+            border-radius: 60px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+            box-shadow:
+                rgba(0,   0,  0, 0.5)   0px 4px 12px,
+                rgba(109,62, 23, 0.4)   0px 0px 20px inset;
+        }
+
+        #RIGHTBOX_IMAGE img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: sepia(20%) contrast(1.1);
+        }
+
+        #RIGHTBOX_TEXT {
+            width: 100%;
+            flex: 1;
+            overflow-y: scroll;
+            font-size: 0.62rem;
+            line-height: 1.6;
+            padding-top: 6px;
+            border-top: 1px solid rgba(195, 182, 165, 0.2);
+            color: rgba(195,182,165,0.7);
+        }
+
+        #RIGHTBOX_TEXT p { margin: 0 0 6px 0; }
+
+/* ── VIDEO PLAYER in RIGHTBOX ── */
+        #RB_VIDEO_WRAP {
+            width: 100%;
+            flex-shrink: 0;
+            margin-bottom: 8px;
+        }
+
+        #RB_VIDEO_INPUT_ROW {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 5px;
+        }
+
+        #RB_VIDEO_URL {
+            flex: 1;
+            background: rgba(20,15,10,0.7);
+            border: 1px solid rgba(195,182,165,0.2);
+            border-radius: 20px;
+            padding: 3px 8px;
+            font-size: 0.55rem;
+            color: #c3b6a5;
+            letter-spacing: 1px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        #RB_VIDEO_URL::placeholder { color: rgba(195,182,165,0.3); }
+
+        #RB_VIDEO_LOAD {
+            background: rgba(106,35,9,0.5);
+            border: 1px solid rgba(195,182,165,0.2);
+            border-radius: 20px;
+            padding: 3px 8px;
+            font-size: 0.55rem;
+            color: #c3b6a5;
+            cursor: pointer;
+            font-family: inherit;
+            letter-spacing: 1px;
+            transition: background 0.2s;
+        }
+
+        #RB_VIDEO_LOAD:hover { background: rgba(140,50,14,0.7); }
+
+        #RB_VIDEO_FRAME_WRAP {
+            width: 100%;
+            aspect-ratio: 16/9;
+            min-height: 60px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(10,8,6,0.8);
+            position: relative;
+            cursor: pointer;
+            box-shadow: rgba(0,0,0,0.5) 0px 4px 12px;
+        }
+
+        #RB_VIDEO_FRAME_WRAP iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        #RB_THEATER_BTN {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            background: rgba(20,10,5,0.7);
+            border: 1px solid rgba(195,182,165,0.25);
+            border-radius: 8px;
+            color: rgba(195,182,165,0.7);
+            font-size: 10px;
+            padding: 3px 6px;
+            cursor: pointer;
+            z-index: 5;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+            letter-spacing: 1px;
+            font-family: inherit;
+        }
+
+        #RB_THEATER_BTN:hover { color: #e8dfd4; background: rgba(40,20,8,0.9); }
+
+        /* ── THEATER MODE ── */
+        #THEATER_OVERLAY {
+            position: fixed;
+            inset: 0;
+            z-index: 99990;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+            background: radial-gradient(ellipse at center,
+                rgba(8,5,3,0.96) 0%,
+                rgba(4,2,1,0.99) 100%);
+        }
+
+        #THEATER_OVERLAY.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* sleepy grain texture */
+        #THEATER_OVERLAY::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 150px;
+            opacity: 0.4;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        /* vignette */
+        #THEATER_OVERLAY::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 70% at center,
+                transparent 40%,
+                rgba(0,0,0,0.7) 100%);
+            pointer-events: none;
+        }
+
+        #THEATER_INNER {
+            position: relative;
+            z-index: 1;
+            width: min(88vw, 1200px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+
+        #THEATER_FRAME_WRAP {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow:
+                0 0 80px rgba(180,120,60,0.08),
+                0 30px 60px rgba(0,0,0,0.8);
+            position: relative;
+        }
+
+        #THEATER_FRAME_WRAP iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+#THEATER_CLOSE {
+    background: none;
+    border: none;
+    color: rgba(195,182,165,0.35);
+    font-size: 11px;
+    letter-spacing: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    margin-top: 4px;
+    align-self: flex-end;
+}
+
+        #THEATER_CLOSE:hover { color: rgba(195,182,165,0.8); }
+
+        #THEATER_LABEL {
+            font-size: 10px;
+            letter-spacing: 5px;
+            color: rgba(195,182,165,0.18);
+            text-transform: uppercase;
+            text-align: center;
+            animation: theaterLabelPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes theaterLabelPulse {
+            0%,100% { opacity: 0.4; }
+            50% { opacity: 0.9; }
+        }
+
+        /* ── MAIN CONTAINER ── */
+        #GUTTED_CONTAINER {
+            text-align-last: justify;
+            color: #c3b6a5;
+            margin: -130px auto;
+            transform: scale(0.8);
+            background-image: url(https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/BGINDUSTRY.jpg);
+            background-size: cover;
+            box-shadow:
+                rgba(23,  9,  2, 0.529) 0px -23px 25px 0px inset,
+                rgba(153,151, 5, 0.152) 0px -36px 30px 0px inset,
+                rgba(109, 62,23, 0.699) 0px -79px 40px 0px inset,
+                rgba(0,   0,  0, 0.384) 0px  10px 10px,
+                rgba(73,  26, 8, 0.404) 0px  25px  8px,
+                rgba(109, 67, 9, 0.573) 0px  32px 16px;
+            border-radius: 30px;
+            height: 590px;
+            width: 610px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ── SUBBOX ── */
+        #SUBBOX {
+            height: 200px;
+            width: 400px;
+            background-image: url(https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/BGWORMS.png);
+            background-size: cover;
+            text-transform: uppercase;
+            text-align: center;
+            margin: auto;
+            border-radius: 60px;
+            box-shadow:
+                rgba(23,  9,  2, 0.529) 0px -23px 25px 0px inset,
+                rgba(153,151, 5, 0.152) 0px -36px 30px 0px inset,
+                rgba(109, 62,23, 0.699) 0px -79px 40px 0px inset,
+                rgba(0,   0,  0, 0.384) 0px  10px 10px,
+                rgba(73,  26, 8, 0.404) 0px  25px  8px,
+                rgba(109, 67, 9, 0.573) 0px  32px 16px;
+        }
+
+        /* ── CONTAINERI (poster collage) ── */
+        #CONTAINERI {
+            overflow: hidden;
+            margin: 0 auto;
+            background-image: url(https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERBAROQUE.webp);
+            background-size: 100% auto;
+            background-repeat: repeat-y;
+            box-shadow:
+                rgba(0,   0,  0, 0.384) 0px  10px 10px,
+                rgba(73,  26, 8, 0.404) 0px  25px  8px,
+                rgba(109, 67, 9, 0.573) 0px  32px 16px;
+            border-radius: 30px;
+            height: 200px;
+            width: 500px;
+            position: relative;
+            margin-top: 80px;
+        }
+
+        #BUMPER { height: 200px; }
+
+
+        /* ══════════════════════════════════════════
+           6. PAGE 3 — GALLERY II LANDING
+        ══════════════════════════════════════════ */
+
+        #PAGE_GALLERY_LANDING {
+            text-align: center;
+            background-image: url("https://raw.githubusercontent.com/GUTCUTZ/site-assets/refs/heads/main/BGGALLERY.jpg");
+            background-size: cover;
+            background-position: center;
+        }
+
+        #PAGE_GALLERY_LANDING::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(35, 30, 27, 0.4), rgba(195, 182, 165, 0.65));
+            z-index: 0;
+        }
+
+        .landing-media {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .landing-media::before {
+            content: "";
+            position: absolute;
+            inset: -20%;
+            background: radial-gradient(circle at center, rgba(232,223,212,0.15), transparent 60%);
+            filter: blur(40px);
+            opacity: 0;
+            animation: glowIn 2.5s ease forwards;
+        }
+
+        .landing-image {
+            width: 250vw;
+            max-width: none;
+            height: auto;
+            opacity: 0;
+            transform: translateY(30px) scale(1.05);
+            filter: blur(18px) contrast(0.9);
+            animation:
+                imageReveal 2.2s cubic-bezier(0.2,0.9,0.2,1) forwards,
+                floatSoft 6s ease-in-out infinite 2.5s;
+        }
+
+        .landing-image-wave {
+            position: absolute;
+            top: -60px;
+            width: 250vw;
+            max-width: none;
+            opacity: 0.38;
+            filter: url(#crtWave) blur(3px) contrast(1.05);
+            animation: waveFloat 10s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes waveFloat {
+            0%   { transform: translateX(-18px) translateY(0px) rotate(-1deg); }
+            50%  { transform: translateX(18px) translateY(-6px) rotate(1deg); }
+            100% { transform: translateX(-18px) translateY(0px) rotate(-1deg); }
+        }
+
+        @keyframes floatSoft {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        @keyframes imageReveal {
+            0%   { opacity: 0; transform: translateY(30px) scale(1.08); filter: blur(22px) contrast(0.8); }
+            60%  { opacity: 1; filter: blur(6px) contrast(1); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px) contrast(1.05); }
+        }
+
+        @keyframes glowIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+
+        /* ══════════════════════════════════════════
+           7. PAGE 4 — GALLERY II MAIN
+        ══════════════════════════════════════════ */
+
+
+
+        #PAGE_GALLERY_MAIN {
+            background-image: url("https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/BGCONCRETE.jpg");
+            background-repeat: repeat;
+            background-size: 50% auto;
+            flex-direction: column;
+            justify-content: flex-start;
+            height: auto;
+            min-height: 100vh;
+            overflow: visible;
+        }
+
+
+        #GALLERY_CONTAINER {
+            position: relative;
+            z-index: 0;
+            width: 100%;
+            max-width: 16000px;
+        }
+
+        #GALLERY_CONTAINER > * { position: relative; z-index: 2; }
+
+        /* ── GALLERY HEADER (icon + nav links) ── */
+        #GALLERY_CONTAINER img.ICON {
+            height: 30px;  
+            width: auto;
+            vertical-align: middle;
+            margin-right: 8px;
+            filter: sepia(30%) hue-rotate(-10deg);
+        }
+
+        #GALLERY_CONTAINER a {
+            color: #6A2309;   
+            font-family: Helvetica;
+            font-size: 30px;  
+            letter-spacing: 18px;
+            margin-right: 10px;    
+            display: inline-block;
+            transform: scaleX(1.6);
+            transform-origin: left center;
+            }
+
+        #GALLERY_CONTAINER a:hover {
+            opacity: 0.6;
+        }
+
+        #PAGE_GALLERY_MAIN h1 {
+            text-align: center;
+            letter-spacing: 6px;
+            margin-bottom: 10px;
+            color: #bb8104;
+            height: auto;
+        }
+
+
+
+        /* ── TEXT CYCLE ── */
+        #TEXT_CYCLE {
+            overflow: hidden;
+            position: relative;
+            white-space: nowrap;
+            width: 100%;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        #TEXT_CYCLE::before {
+            content: "";
+            position: absolute;
+            left: 0; top: 0;
+            width: 100px; height: 100%;
+            background: linear-gradient(to right, #9A9178, transparent);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+
+        #TEXT_CYCLE::after {
+            content: "";
+            position: absolute;
+            right: 0; top: 0;
+            width: 100px; height: 100%;
+            background: linear-gradient(to left, #9A9178, transparent);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .scroll-track {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: scrollText 45s linear infinite;
+            animation-delay: 2s;
+        }
+
+        .scroll-track span {
+            font-size: 13px;
+            letter-spacing: 3px;
+            line-height: 1;
+            color: #3f3523;
+        }
+
+        /* ── IMAGE STRIP ── */
+        #IMAGE_STRIP { overflow: hidden; margin-top: 0px; }
+
+        .image-track {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: flex-start;
+           gap: 0;
+           animation: scrollText 120s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+           animation-delay: 2s;
+        }
+
+        .image-track img {
+            display: block;
+            flex-shrink: 0;
+            filter: contrast(1.1) brightness(0.95);
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+
+        .image-track img:hover { transform: translateY(-5px); }
+        .image-track img.tall  { height: 690px; width: auto; }
+        .image-track img.wide  { height: 690px; width: auto; }
+
+        @keyframes scrollText {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        /* ── IMAGE GRID ── */
+        #GALLERY_GRID {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .img-slot {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .img-slot img { width: 100%; height: 100%; object-fit: cover; }
+
+        #PAGE_GALLERY_MAIN p {
+            max-width: 700px;
+            margin: 40px auto;
+            text-align: left;
+            line-height: 1.6;
+            color: #8c0000;
+        }
+
+
+        /* ══════════════════════════════════════════
+           8. MAISON MARGIELA NAV (pages 3+)
+        ══════════════════════════════════════════ */
+
+        #MM_NAV {
+            position: fixed;
+            top: 32px;
+            right: 32px;
+            z-index: 100;
+            padding: 14px 18px;
+            background: rgba(195,182,148,0.12);
+            backdrop-filter: blur(8px);
+            line-height: 1.85;
+            min-width: 148px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+        }
+
+        #MM_NAV.is-visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .mm-indicator {
+            position: absolute;
+            top: 0; left: 0;
+            width: 20px; height: 20px;
+            transform: translate3d(0,0,0);
+            will-change: transform;
+            border-radius: 50%;
+            border: 3px solid #6A2309;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .mm-row {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-start;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mm-item {
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            color: rgba(35,30,27,0.5);
+            cursor: default;
+            user-select: none;
+            min-width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mm-item::after {
+            content: attr(data-label);
+            position: absolute;
+            left: 0; top: 0;
+            transform: translateY(8px);
+            opacity: 0;
+            color: rgba(195, 182, 165, 0.15);
+            transition: all 0.7s cubic-bezier(0.2, 0.9, 0.2, 1);
+        }
+
+        .mm-item:hover             { transform: translateY(-5px); color: rgba(195,182,165,0.7); }
+        .mm-item.nav-link          { color: #c3b6a5; cursor: pointer; }
+        .mm-item.nav-link:hover    { color: #e8dfd4; }
+        .mm-item.active            { color: #e8dfd4; }
+
+        .mm-label {
+            font-size: 9px;
+            letter-spacing: 0.12em;
+            color: rgba(195,182,165,0.3);
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(195,182,165,0.15);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mm-item-label {
+            font-size: 7px;
+            letter-spacing: 0.08em;
+            color: rgba(195,182,165,0.4);
+            text-align: center;
+            margin-top: 5px;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
+        }
+
+
+        /* ══════════════════════════════════════════
+           9. PAGE DOLL + STAR + FLOURISHES
+        ══════════════════════════════════════════ */
+
+        @keyframes rotation3 {
+            33%  { transform: rotate(-1.5deg); }
+            66%  { transform: rotate(1.5deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        @keyframes pdEager {
+            0%   { transform: translateY(0)    scale(1,1)     rotate(0deg); }
+            15%  { transform: translateY(8px)  scale(1.03,0.97) rotate(-0.5deg); }
+            35%  { transform: translateY(-35px) scale(0.98,1.03) rotate(0.5deg); }
+            50%  { transform: translateY(-45px) scale(1,1.02) rotate(0deg); }
+            65%  { transform: translateY(-38px) scale(1,1) rotate(-0.4deg); }
+            85%  { transform: translateY(4px)   scale(1.02,0.98) rotate(0.4deg); }
+            100% { transform: translateY(0)    scale(1,1)     rotate(0deg); }
+        }
+
+        #PD.excited {
+            animation: pdEager 1.4s infinite ease-in-out;
+        }
+
+        #PD, #STAR {
+            position: fixed;
+            z-index: 99999;
+            height: 500px;
+            display: inline-block;
+            animation: rotation3 2s infinite ease;
+            transition: opacity 0.6s ease;
+        }
+
+        #PD   { right: 0;      bottom: 120px; }
+
+                #PD.minimized {
+            height: auto;
+            max-height: 40px;
+            overflow: hidden;
+            padding: 6px 14px;
+        }
+
+        #PD.minimized #MP_PROGRESS_WRAP,
+        #PD.minimized #MP_PLAYLIST_WRAP {
+            display: none;
+        }
+        #STAR { left: 100px;   bottom: 100px; }
+
+        #FLOURISHI, #FLOURISHII, #FLOURISHIII, #FLOURISHIV {
+            position: fixed;
+            z-index: 999;
+            height: 110px;
+        }
+
+        #PAGE_DOLL, #FLOURISHES {
+            position: fixed;
+            z-index: 99998;
+            opacity: 1;
+            pointer-events: none;
+            transition: opacity 0.9s ease;
+        }
+
+        #PAGE_DOLL a, #FLOURISHES a {
+            pointer-events: auto;
+        }
+
+        #FLOURISHI   { left: 5px;  bottom: 0; transform: rotateX(180deg); }
+        #FLOURISHII  { right: 5px; bottom: 0; transform: rotate(180deg); }
+        #FLOURISHIII { left: 5px;  top: 0; }
+        #FLOURISHIV  { right: 5px; top: 0; transform: rotateY(180deg); }
+
+
+    /* ═══════════════════════════════════════════
+       VIDEO PLAYER + THEATER MODE
+    ═══════════════════════════════════════════ */
+
+    function ytEmbedUrl(raw) {
+        var id = null;
+        // youtu.be/ID
+        var m1 = raw.match(/youtu\.be\/([A-Za-z0-9_\-]{11})/);
+        if (m1) id = m1[1];
+        // ?v=ID or &v=ID
+        var m2 = raw.match(/[?&]v=([A-Za-z0-9_\-]{11})/);
+        if (m2) id = m2[1];
+        // embed/ID
+        var m3 = raw.match(/embed\/([A-Za-z0-9_\-]{11})/);
+        if (m3) id = m3[1];
+        if (!id) return null;
+        return 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0&modestbranding=1&enablejsapi=1';
+        }
+
+          var rbIframe       = document.getElementById('RB_VIDEO_IFRAME');
+          var theaterOverlay = document.getElementById('THEATER_OVERLAY');
+          var theaterIframe  = document.getElementById('THEATER_IFRAME');
+          var currentEmbedSrc = '';
+
+          // Preload default video (no autoplay on load — starts muted/paused)
+          var DEFAULT_VIDEO = 'https://www.youtube.com/watch?v=HLABpljsrIk';
+          var defaultEmbed  = ytEmbedUrl(DEFAULT_VIDEO);
+          if (defaultEmbed) {
+              currentEmbedSrc = defaultEmbed;
+              rbIframe.src    = defaultEmbed.replace('autoplay=1', 'autoplay=0');
+          }
+
+        document.getElementById('RB_VIDEO_LOAD').addEventListener('click', function() {
+             var raw = document.getElementById('RB_VIDEO_URL').value.trim();
+                if (!raw) return;
+             var embed = ytEmbedUrl(raw);
+        if (!embed) { document.getElementById('RB_VIDEO_URL').style.borderColor = 'rgba(176,59,17,0.7)'; return; }
+        document.getElementById('RB_VIDEO_URL').style.borderColor = '';
+        currentEmbedSrc = embed;
+        rbIframe.src = embed;
+    });
+
+    document.getElementById('RB_VIDEO_URL').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') document.getElementById('RB_VIDEO_LOAD').click();
+    });
+
+    document.getElementById('RB_THEATER_BTN').addEventListener('click', openTheater);
+
+    document.getElementById('THEATER_CLOSE').addEventListener('click', function() {
+        theaterOverlay.classList.remove('open');
+        theaterIframe.src = '';
+        if (currentEmbedSrc) {
+            rbIframe.src = currentEmbedSrc.replace('autoplay=1', 'autoplay=0');
+        }
+        document.body.style.cursor = 'crosshair';
+    });
+
+    theaterOverlay.addEventListener('click', function(e) {
+        if (e.target === theaterOverlay) {
+            document.getElementById('THEATER_CLOSE').click();
+        }
+    });
+
+    function openTheater() {
+        if (!currentEmbedSrc) return;
+        // pause inline player first
+        rbIframe.src = currentEmbedSrc.replace('autoplay=1', 'autoplay=0');
+        // load into theater
+        theaterIframe.src = currentEmbedSrc;
+        theaterOverlay.classList.add('open');
+        document.body.style.cursor = 'default';
+    }
+
+    
+
+        /* ══════════════════════════════════════════
+           10. MUSIC PLAYER
+        ══════════════════════════════════════════ */
+
+        #MUSIC_PLAYER {
+            position: fixed;
+            top: 90vh;
+            left: 50%;
+            transform: translateX(-50%);
+            height: auto;
+            cursor: grab;
+            z-index: 9000;
+            width: 340px;
+            min-width: 340px;
+            max-width: 340px;
+            box-sizing: border-box;
+            background-image: url(https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/BGBACKWINDOW.jpg);
+            background-size: cover;
+            filter: sepia(30%) hue-rotate(-10deg);
+            border-radius: 100px;
+            padding: 14px 18px 12px;
+            box-shadow:
+                rgba(23,  9,  2, 0.6)  0px -23px 25px 0px inset,
+                rgba(109,62, 23, 0.7)  0px -79px 40px 0px inset,
+                rgba(0,   0,  0, 0.5)  0px  10px 20px,
+                rgba(73,  26, 8, 0.5)  0px  25px  8px;
+            color: #c3b6a5;
+        }
+
+        #MP_TRACK { text-align: center; margin-bottom: 10px; }
+
+        #MP_LABEL {
+            display: block;
+            font-size: 0.6rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(195, 182, 165, 0.45);
+            margin-bottom: 3px;
+        }
+
+        #MP_TITLE {
+            display: block;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: #c3b6a5;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #MP_PROGRESS_WRAP {
+            width: 100%;
+            height: 3px;
+            background: rgba(195, 182, 165, 0.15);
+            border-radius: 2px;
+            margin: 8px 0;
+            cursor: pointer;
+        }
+
+        #MP_PROGRESS_FILL {
+            height: 100%;
+            width: 0%;
+            background: rgba(195, 182, 165, 0.6);
+            border-radius: 2px;
+            transition: width 0.25s linear;
+            pointer-events: none;
+        }
+
+        #MP_CONTROLS {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            margin-top: 8px;
+        }
+
+        .MP_BTN {
+            background: none;
+            border: none;
+            color: #c3b6a5;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 4px;
+            opacity: 0.7;
+            transition: opacity 0.2s, transform 0.15s;
+            font-family: inherit;
+        }
+
+        .MP_BTN:hover  { opacity: 1; transform: scale(1.15); }
+        .MP_BTN:active { transform: scale(0.95); }
+        #MP_PLAYPAUSE  { font-size: 1.3rem; opacity: 0.9; }
+
+        #MP_PLAYLIST_WRAP {
+            margin-top: 10px;
+            border-top: 1px solid rgba(195, 182, 165, 0.15);
+            padding-top: 8px;
+            display: none;
+        }
+
+        #MP_PLAYLIST_WRAP.open { display: block; }
+
+        .MP_TRACK_ITEM {
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            padding: 4px 6px;
+            cursor: pointer;
+            border-radius: 6px;
+            color: rgba(195, 182, 165, 0.6);
+            transition: background 0.15s, color 0.15s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #MUSIC_PLAYER.minimized {
+            height: auto;
+            max-height: 40px;
+            overflow: hidden;
+            padding: 6px 14px;
+        }
+
+        #MUSIC_PLAYER.minimized #MP_PROGRESS_WRAP,
+        #MUSIC_PLAYER.minimized #MP_PLAYLIST_WRAP {
+            display: none;
+        }
+
+        #MP_RESTORE {
+            position: fixed;
+            bottom: 0px;
+            right: 300px;
+            width: 40px;
+            height: 40px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #c3b6a5;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 9999;
+            backdrop-filter: blur(6px);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        #MP_RESTORE:hover { transform: scale(1.15); opacity: 0.8; }
+
+        /* mobile-only elements — hidden on desktop */
+        .mob-drawer, .mob-drawer-tab { display: none; }
+
+        /* ══════════════════════════════════════════
+           MOBILE  (max-width: 768px)
+        ══════════════════════════════════════════ */
+
+        @media (max-width: 768px) {
+
+            /* ── PERFORMANCE: kill expensive always-on effects ── */
+            body::before, body::after { display: none; }   /* CRT scanlines + flicker */
+
+            .landing-image-wave { display: none; }         /* CRT wave SVG filter on gallery landing */
+
+            #PD.excited { animation: none; }               /* hover bounce on doll */
+
+            /* ── PAGE DOLL + STAR: smaller ── */
+            #PD   { height: 180px; bottom: 80px; right: 0; }
+            #STAR { height: 120px; bottom: 60px; left: 20px; }
+
+            /* ── LEFTBOX / RIGHTBOX: hide desktop versions ── */
+            #LEFTBOX, #RIGHTBOX { display: none; }
+
+            /* ── PULLOUT DRAWER TABS (mobile only) ── */
+            .mob-drawer {
+                position: fixed;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 72vw;
+                max-width: 300px;
+                height: 70vh;
+                z-index: 19999;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                border-radius: 32px;
+                transition: left 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                            right 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+                filter: sepia(30%) hue-rotate(-10deg);
+                box-shadow:
+                    rgba(23,9,2,0.529)    0px -23px 25px 0px inset,
+                    rgba(109,62,23,0.699) 0px -79px 40px 0px inset,
+                    rgba(0,0,0,0.5)       0px 10px 20px;
+            }
+
+            #MOB_LEFT_DRAWER {
+                left: -72vw;
+                background-image: url(https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/BGATTIC.jpg);
+                background-size: cover;
+                padding: 24px 18px;
+                color: #c3b6a5;
+            }
+            #MOB_LEFT_DRAWER.open  { left: 0; }
+
+            #MOB_RIGHT_DRAWER {
+                right: -72vw;
+                background-image: url(https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERWTWTA.jpg);
+                background-size: cover;
+                background-position: center;
+                padding: 24px 18px;
+                color: #c3b6a5;
+            }
+            #MOB_RIGHT_DRAWER.open { right: 0; }
+
+            /* pull tabs — the visible handles when drawers are closed */
+            .mob-drawer-tab {
+                position: fixed;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 22px;
+                height: 60px;
+                z-index: 20000;
+                background: rgba(109,62,23,0.7);
+                backdrop-filter: blur(6px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                writing-mode: vertical-lr;
+                font-size: 8px;
+                letter-spacing: 3px;
+                color: rgba(195,182,165,0.7);
+                text-transform: uppercase;
+                border-radius: 0 8px 8px 0;
+                transition: background 0.2s;
+            }
+            .mob-drawer-tab:active { background: rgba(140,80,30,0.85); }
+
+            #MOB_LEFT_TAB  { left: 0;  border-radius: 0 8px 8px 0; }
+            #MOB_RIGHT_TAB { right: 0; border-radius: 8px 0 0 8px; writing-mode: vertical-rl; }
+
+            /* drawer inner scroll area */
+            .mob-drawer-scroll {
+                flex: 1;
+                overflow-y: auto;
+                padding-top: 8px;
+                font-size: 0.65rem;
+                line-height: 1.7;
+                color: rgba(195,182,165,0.8);
+            }
+
+            /* close X inside each drawer */
+            .mob-drawer-close {
+                align-self: flex-end;
+                background: none;
+                border: none;
+                color: rgba(195,182,165,0.4);
+                font-size: 18px;
+                cursor: pointer;
+                padding: 0 0 8px 0;
+                line-height: 1;
+            }
+
+            /* ── IMAGE STRIP: let it scroll naturally on mobile ── */
+            .image-track img.tall,
+            .image-track img.wide { height: 260px; }
+
+
+            /* ── MM NAV: hide on mobile (touch has no cursor to follow) ── */
+            #MM_NAV { display: none; }
+
+            /* ── GUTTED CONTAINER: scale down for narrow screens ── */
+            #GUTTED_CONTAINER {
+                transform: scale(0.55);
+                margin: -180px auto;
+            }
+
+            /* ── LEFTBOX / RIGHTBOX absolute positioning cleanup ── */
+            #LEFTBOX, #RIGHTBOX {
+                display: none !important;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CRT WAVE FILTER -->
+    <svg width="0" height="0" style="position:absolute">
+        <filter id="crtWave">
+            <feTurbulence type="fractalNoise" baseFrequency="0.02 0.08" numOctaves="3" seed="8" result="noise">
+                <animate attributeName="baseFrequency" dur="2.8s"
+                    values="0.02 0.08; 0.03 0.12; 0.015 0.06; 0.02 0.08"
+                    repeatCount="indefinite" />
+            </feTurbulence>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.4" result="blur"/>
+            <feDisplacementMap in="blur" in2="noise" scale="45" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+    </svg>
+
+
+    <!-- ══════════════════════════════════════════
+         FIXED ELEMENTS (persist across all pages)
+    ══════════════════════════════════════════ -->
+
+    <!-- ══════════════════════════════════════════
+         MOBILE PULLOUT DRAWERS (hidden on desktop)
+    ══════════════════════════════════════════ -->
+
+    <!-- Left tab + drawer (bio content) -->
+    <div id="MOB_LEFT_TAB" class="mob-drawer-tab" onclick="
+        document.getElementById('MOB_LEFT_DRAWER').classList.toggle('open');
+        document.getElementById('MOB_RIGHT_DRAWER').classList.remove('open');
+    ">✦</div>
+
+    <div id="MOB_LEFT_DRAWER" class="mob-drawer">
+        <button class="mob-drawer-close" onclick="document.getElementById('MOB_LEFT_DRAWER').classList.remove('open')">✕</button>
+        <div class="mob-drawer-scroll">
+            <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETHEAD.png" width="auto" height="120" style="display:block;margin:0 auto 12px;">
+            <p>I tell all my friends everything you do, a sick obsession that I still try to prove.</p>
+        </div>
+    </div>
+
+    <!-- Right tab + drawer (video player) -->
+    <div id="MOB_RIGHT_TAB" class="mob-drawer-tab" onclick="
+        document.getElementById('MOB_RIGHT_DRAWER').classList.toggle('open');
+        document.getElementById('MOB_LEFT_DRAWER').classList.remove('open');
+    ">✦</div>
+
+    <div id="MOB_RIGHT_DRAWER" class="mob-drawer">
+        <button class="mob-drawer-close" onclick="document.getElementById('MOB_RIGHT_DRAWER').classList.remove('open')">✕</button>
+        <div class="mob-drawer-scroll">
+            <div style="font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;color:rgba(195,182,165,0.5);text-align:center;margin-bottom:10px;">✶ UP AND COMING ✶</div>
+            <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETWTWTA.gif" style="width:100%;border-radius:20px;margin-bottom:10px;">
+            <div style="display:flex;gap:4px;margin-bottom:6px;">
+                <input id="MOB_VIDEO_URL" type="text" placeholder="youtube url…" autocomplete="off" spellcheck="false"
+                    style="flex:1;background:rgba(20,15,10,0.7);border:1px solid rgba(195,182,165,0.2);border-radius:20px;padding:4px 10px;font-size:0.6rem;color:#c3b6a5;outline:none;">
+                <button onclick="
+                    var raw = document.getElementById('MOB_VIDEO_URL').value.trim();
+                    var embed = ytEmbedUrl(raw);
+                    if (embed) document.getElementById('RB_VIDEO_IFRAME').src = embed;
+                " style="background:rgba(106,35,9,0.5);border:1px solid rgba(195,182,165,0.2);border-radius:20px;padding:4px 10px;font-size:0.6rem;color:#c3b6a5;cursor:pointer;">▶</button>
+            </div>
+            <div style="width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:rgba(10,8,6,0.8);">
+                <iframe src="" id="MOB_VIDEO_IFRAME" allowfullscreen allow="autoplay; encrypted-media" style="width:100%;height:100%;border:none;"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page doll + star -->
+     <div id="PAGE_DOLL">
+    <a href="https://gutt3d.carrd.co/">
+        <img id="PD"   src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/PAGEDOLL.png">
+        <img id="STAR" src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETFLAIL.png">
+    </a>
+    </div>
+
+    <!-- Corner wing flourishes -->
+<div id="FLOURISHES">
+    <img id="FLOURISHI"   src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETWING_RIGHT.png">
+    <img id="FLOURISHII"  src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETWING_RIGHT.png">
+    <img id="FLOURISHIII" src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETWING_RIGHT.png">
+    <img id="FLOURISHIV"  src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETWING_RIGHT.png">
+</div>
+    <!-- MM Nav (hidden until page 3) -->
+    <nav id="MM_NAV">
+        <div class="mm-indicator" id="MM_INDICATOR"></div>
+        <div class="mm-label">GUTTED</div>
+        <div class="mm-row">
+            <span class="mm-item nav-link" data-panel="2">0</span>
+            <span class="mm-item nav-link" data-panel="3">1</span>
+            <span class="mm-item">2</span>
+            <span class="mm-item">3</span>
+            <span class="mm-item">4</span>
+            <span class="mm-item">5</span>
+        </div>
+        <div class="mm-row">
+            <span class="mm-item">6</span>
+            <span class="mm-item">7</span>
+            <span class="mm-item">8</span>
+            <span class="mm-item">9</span>
+            <span class="mm-item">10</span>
+            <span class="mm-item">11</span>
+        </div>
+        <div class="mm-row">
+            <span class="mm-item">12</span>
+            <span class="mm-item">13</span>
+            <span class="mm-item">14</span>
+            <span class="mm-item">15</span>
+            <span class="mm-item">16</span>
+            <span class="mm-item">17</span>
+        </div>
+        <div class="mm-row">
+            <span class="mm-item">18</span>
+            <span class="mm-item">19</span>
+            <span class="mm-item">20</span>
+            <span class="mm-item">21</span>
+            <span class="mm-item">22</span>
+            <span class="mm-item">23</span>
+        </div>
+        
+        <div class="mm-item-label">0 · LANDING &nbsp;·&nbsp; 1 · GALLERY</div>
+    </nav>
+
+    <!-- Music Player -->
+    <div id="MUSIC_PLAYER">
+        <div id="MP_TRACK">
+            <span id="MP_LABEL">♪ now playing</span>
+            <span id="MP_TITLE">—</span>
+        </div>
+        <div id="MP_PROGRESS_WRAP">
+            <div id="MP_PROGRESS_FILL"></div>
+        </div>
+        <div id="MP_CONTROLS">
+            <button class="MP_BTN" id="MP_PREV"      title="previous">&#9664;&#9664;</button>
+            <button class="MP_BTN" id="MP_PLAYPAUSE" title="play / pause">&#9654;</button>
+            <button class="MP_BTN" id="MP_NEXT"      title="next">&#9654;&#9654;</button>
+            <button class="MP_BTN" id="MP_LIST"      title="playlist">&#9776;</button>
+            <button class="MP_BTN" id="MP_RESTORE"   title="restore">&#9986;</button>
+            <button class="MP_BTN" id="MP_MINIMIZE"  title="close">&#9988;</button>
+        </div>
+        <div id="MP_PLAYLIST_WRAP"></div>
+    </div>
+
+    <audio id="AUDIO_EL" preload="none"></audio>
+
+
+    <!-- ══════════════════════════════════════════
+         SCROLL ROOT — ALL 4 PANELS
+    ══════════════════════════════════════════ -->
+
+    <!-- Theater mode overlay -->
+    <div id="THEATER_OVERLAY">
+        <div id="THEATER_INNER">
+            <div id="THEATER_FRAME_WRAP">
+                <iframe id="THEATER_IFRAME" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+            </div>
+            <button id="THEATER_CLOSE">✕ close theater</button>
+            <div id="THEATER_LABEL">&#9769; now screening &#9769;</div>
+        </div>
+    </div>
+
+    <div id="SCROLL_ROOT">
+
+
+        <!-- ══════════════════════════════════════
+             PAGE 1 — GUTTEDLIVE LANDING
+        ══════════════════════════════════════ -->
+
+        <section class="panel" id="PAGE_GUTTED_LANDING" data-index="0">
+
+            <div class="LANDING_CONTENT">
+                <h1 class="LANDING_TITLE">
+                    <img class="reveal-text"
+                         src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/LOGOREDRUM.png"
+                         style="transform:scale(0.6); position:fixed; top: -170px; right: -435px;">
+                </h1>
+                <p class="LANDING_SUB">ABANDON HOPE ALL WHO ENTER</p>
+            </div>
+
+            <div id="SCROLL_DOWN_HINT" onclick="snapToPanel(1)">scroll ↓</div>
+
+        </section>
+
+
+        <!-- ══════════════════════════════════════
+             PAGE 2 — GUTTEDLIVE CONTENT
+        ══════════════════════════════════════ -->
+
+        <section class="panel" id="PAGE_GUTTED_CONTENT" data-index="1">
+
+            <!-- Left decorative box -->
+            <div id="LEFTBOX">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETHEAD.png"
+                     width="auto" height="170">
+                <div id="LEFTPARAGRAPH">
+                    <p>I tell all my friends everything you do, a sick obsession that I still try to prove.</p>
+                </div>
+            </div>
+
+            <!-- Right decorative box (with video player) -->
+            <div id="RIGHTBOX">
+                <div id="RIGHTBOX_LABEL">✶ UP AND COMING ✶</div>
+                <div id="RIGHTBOX_IMAGE">
+                    <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETWTWTA.gif" alt="profile">
+                </div>
+
+                <!-- ── VIDEO PLAYER ── -->
+                <div id="RB_VIDEO_WRAP">
+                    <div id="RB_VIDEO_INPUT_ROW">
+                        <input id="RB_VIDEO_URL" type="text" placeholder="youtube url…" autocomplete="off" spellcheck="false">
+                        <button id="RB_VIDEO_LOAD">▶</button>
+                    </div>
+                    <div id="RB_VIDEO_FRAME_WRAP">
+                        <iframe id="RB_VIDEO_IFRAME" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+                        <button id="RB_THEATER_BTN" title="theater mode">⛶</button>
+                    </div>
+                </div>
+
+                <div id="RIGHTBOX_TEXT">
+                    <p>I'm afraid</p>
+                    <p>I only changed myself</p>
+                    <p>because you're not </p>
+                    <p>into the original </p>
+                    <p>and if I saw what he</p>
+                    <p>see, no love of mine</p>
+                    <p>cuts deep into a clean</p>
+                    <p>face, now he's just like</p>
+                    <p>me, delusional</p>
+                </div>
+            </div>
+
+            <!-- Main content container -->
+            <div id="GUTTED_CONTAINER">
+
+                <img class="reveal-text"
+                     src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/LOGOMAIN.png"
+                     style="transform:scale(0.3); position:absolute; top:-190px; left:-350px;">
+
+                <div id="BUMPER"></div>
+
+                <!-- Navigation -->
+                <nav id="NAVBAR" class="reveal-text">
+                    <a href="https://gutted.neocities.org/GALLERY">&sext; GALLERY</a>
+                    <a href="#CONTACT">&sext; CONTACT</a>
+                    <a href="#LIBRARY">&sext; LIBRARY</a>
+                    <a href="#MUSIC">&sext; MUSIC</a>
+                </nav>
+
+                <!-- Section anchors -->
+                <div id="GALLERY_ANCHOR"></div>
+                <div id="CONTACT"></div>
+                <div id="LIBRARY"></div>
+                <div id="MUSIC"></div>
+
+                <!-- Bio -->
+                <p class="PARAGRAPH reveal-text">
+                    Hello, my name is ███████; You may call me Gut in reference. I am a self taught illustrator and painter in pursuit of formal education. My illustrations explore thoughts which words would fail to verbalize. It is precisely for this reason that they may contain imagery deemed unsavory by common sensibilities. Viewer discretion is advised X&#9679;))
+                </p>
+
+                <!-- Social links subbox -->
+                <div id="SUBBOX" class="reveal-text">
+                    <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETSNIPRIGHT.png" alt="SNIP"  width="auto" height="50">
+                    <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETORANGE.png"    alt="PEACH" width="auto" height="80">
+                    <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETSNIPLEFT.png"  alt="SNIP"  width="auto" height="40">
+                    <a href="https://x.com/GUTTEDLIVE">XITTER</a>
+                    <a href="https://www.instagram.com/gutted.live/">&#9769;INSTA</a>
+                    <a href="https://bsky.app/profile/gutted.live">&#9769;BL SKY</a>
+                    <a href="https://gutt3dlive.tumblr.com/">&#9769;TUMBLR</a>
+                    <a href="https://www.inprnt.com/profile/gutcutz/">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&#9769;INPRINT&#9769;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</a>
+                </div>
+
+                <!-- Center wing -->
+                <a href="https://gutt3d.carrd.co/">
+                    <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETWING_CENTER.png"
+                         style="position:absolute; transform:translate(-320px,-185px); scale:0.6; z-index:30;">
+                </a>
+
+            </div><!-- /#GUTTED_CONTAINER -->
+
+            <!-- Stamps marquee -->
+            <div class="STAMPS" style="position:absolute; bottom:0; left:0; right:0;">
+                <marquee behavior="alternate" scrollamount="10">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/b30728d9-69be-42aa-971e-4ae6cd2c819e/dlvypob-89813cbd-0340-4620-a5cc-18c80fd590b7.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9iMzA3MjhkOS02OWJlLTQyYWEtOTcxZS00YWU2Y2QyYzgxOWUvZGx2eXBvYi04OTgxM2NiZC0wMzQwLTQ2MjAtYTVjYy0xOGM4MGZkNTkwYjcuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.zl1lz8I_9dHxH0AabUz4R1ttXCUjfu3BGC404pdc0jU">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/6de4b94f-0fd0-4e92-82be-94e850d4c66c/dfuxebr-ac2eba7f-19ad-45dd-9173-c5b002fe02cb.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi82ZGU0Yjk0Zi0wZmQwLTRlOTItODJiZS05NGU4NTBkNGM2NmMvZGZ1eGVici1hYzJlYmE3Zi0xOWFkLTQ1ZGQtOTE3My1jNWIwMDJmZTAyY2IuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.30zXQXtXHC5E-UAuW5AInIaeeTipsAEjk-u2IE2OC5s">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/8d6eb24e-44be-4b57-9edf-0febfe170821/dg0u2lp-25fe9a20-9a5d-4c67-839e-3240d5fff26e.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi84ZDZlYjI0ZS00NGJlLTRiNTctOWVkZi0wZmViZmUxNzA4MjEvZGcwdTJscC0yNWZlOWEyMC05YTVkLTRjNjctODM5ZS0zMjQwZDVmZmYyNmUucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Zgf1qSP5j6mTe4ssgqV6mb59ixyzr8QX8ihcJU0l7M4">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/e1615532-6aee-4e11-9b89-f75f6132fb96/dayywd3-095c586e-4d22-4e1c-ae05-45ed77e77ec9.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2UxNjE1NTMyLTZhZWUtNGUxMS05Yjg5LWY3NWY2MTMyZmI5NlwvZGF5eXdkMy0wOTVjNTg2ZS00ZDIyLTRlMWMtYWUwNS00NWVkNzdlNzdlYzkucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.BV-6PemEUryb_WRyhD22IJ4jDrpmr3R9UYWSahpQEQs">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/3d45c08b-4542-4268-bb70-2194b4ff5dac/dfodpd9-cffa1249-5b1b-456f-bc77-e6e15b2377de.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzNkNDVjMDhiLTQ1NDItNDI2OC1iYjcwLTIxOTRiNGZmNWRhY1wvZGZvZHBkOS1jZmZhMTI0OS01YjFiLTQ1NmYtYmM3Ny1lNmUxNWIyMzc3ZGUucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.kTDQ-N6gUZGLoqiRxvEL9bMLBIugtRBLINiCztF_zWY">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/e60fd151-4f04-478f-b159-ab8f1ef291ea/dchbh8d-4711a034-fcf0-4dc8-915e-630d2b3c46a2.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9lNjBmZDE1MS00ZjA0LTQ3OGYtYjE1OS1hYjhmMWVmMjkxZWEvZGNoYmg4ZC00NzExYTAzNC1mY2YwLTRkYzgtOTE1ZS02MzBkMmIzYzQ2YTIucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.o5vpF0ehtB0NiCl9isDxCG3KP4Cb29ycpa-W80_0Oyo">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/e1615532-6aee-4e11-9b89-f75f6132fb96/dayyvzj-77e08fd0-273b-416e-a15c-37d5d2183c8f.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2UxNjE1NTMyLTZhZWUtNGUxMS05Yjg5LWY3NWY2MTMyZmI5NlwvZGF5eXZ6ai03N2UwOGZkMC0yNzNiLTQxNmUtYTE1Yy0zN2Q1ZDIxODNjOGYucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.btMiZI5efFQwuT8M9lAfYUDNH82_eR8uLwknWKrKKsA">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/dae730d9-69cf-4856-98e2-183f3fdf0a52/dk485t4-60806f71-0d37-4938-a147-bcd41f297551.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9kYWU3MzBkOS02OWNmLTQ4NTYtOThlMi0xODNmM2ZkZjBhNTIvZGs0ODV0NC02MDgwNmY3MS0wZDM3LTQ5MzgtYTE0Ny1iY2Q0MWYyOTc1NTEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.DlYg00DoxwC0XCQyEfl95EfiDKmaRxaO8GGXUpM9W_o">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c89d1002-8ee8-401a-aae5-adc53a6b798b/da7oyxr-cb94d6ee-d4c9-412f-9410-80ca32235e0f.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2M4OWQxMDAyLThlZTgtNDAxYS1hYWU1LWFkYzUzYTZiNzk4YlwvZGE3b3l4ci1jYjk0ZDZlZS1kNGM5LTQxMmYtOTQxMC04MGNhMzIyMzVlMGYucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.tLQu1hDWbLEEFraaMj_yu3KCmrWiXSNBs7h9DEBZWlw">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/146b9772-f654-4025-91a3-d6428da8b5af/dd6kvu8-c88fef3e-cb45-4c14-9f25-914b2da45e52.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi8xNDZiOTc3Mi1mNjU0LTQwMjUtOTFhMy1kNjQyOGRhOGI1YWYvZGQ2a3Z1OC1jODhmZWYzZS1jYjQ1LTRjMTQtOWYyNS05MTRiMmRhNDVlNTIucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Wr1zT5gXaxhJ5MN8QSNQxDLIimPSw0LSGAg40WZ8HnQ">
+                    <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/refs/heads/main/STAMPTRANNYBOOT.gif">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/b30728d9-69be-42aa-971e-4ae6cd2c819e/dlvypww-674028ce-a79f-464f-957b-6f9af5cc08dd.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9iMzA3MjhkOS02OWJlLTQyYWEtOTcxZS00YWU2Y2QyYzgxOWUvZGx2eXB3dy02NzQwMjhjZS1hNzlmLTQ2NGYtOTU3Yi02ZjlhZjVjYzA4ZGQuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.IytbwvZsjDu-yLpHxYaNkxynNxHqFgx3lTadaOWhcrA">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/6db176ea-43fc-419e-b786-5bb3ee833976/dlmv75s-01f60ef7-ac75-45f6-8afb-76e5c77fc229.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi82ZGIxNzZlYS00M2ZjLTQxOWUtYjc4Ni01YmIzZWU4MzM5NzYvZGxtdjc1cy0wMWY2MGVmNy1hYzc1LTQ1ZjYtOGFmYi03NmU1Yzc3ZmMyMjkucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.0OzDbOZw0om79VwRIhbYuT7041xoHm-lxJhiM3px3y4">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/8d6eb24e-44be-4b57-9edf-0febfe170821/dg0kpcg-67c081eb-9a88-43eb-9976-3b2472c1ca1a.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi84ZDZlYjI0ZS00NGJlLTRiNTctOWVkZi0wZmViZmUxNzA4MjEvZGcwa3BjZy02N2MwODFlYi05YTg4LTQzZWItOTk3Ni0zYjI0NzJjMWNhMWEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.dRDWa4MMotNEsgfqwiiEbSdH2pvUAoTG1j-Z4ObI_4c">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/33025984-9759-4e74-9ab3-8951ce110782/dhm2mfn-8a0424fd-0f1b-4974-8cd7-05059d9b2733.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzMzMDI1OTg0LTk3NTktNGU3NC05YWIzLTg5NTFjZTExMDc4MlwvZGhtMm1mbi04YTA0MjRmZC0wZjFiLTQ5NzQtOGNkNy0wNTA1OWQ5YjI3MzMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.j_HQFXip5f6s9OAIg0h7LtmZ81ARINrOnWfvJH_T71Q">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/dae730d9-69cf-4856-98e2-183f3fdf0a52/dk4abic-20e78363-655d-4670-bf5a-fecf0689a0c7.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9kYWU3MzBkOS02OWNmLTQ4NTYtOThlMi0xODNmM2ZkZjBhNTIvZGs0YWJpYy0yMGU3ODM2My02NTVkLTQ2NzAtYmY1YS1mZWNmMDY4OWEwYzcucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.ayfn4iY6sV_ETkTry8nFhcgpEm160SB45S4ahE14Jns">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/050c3e0c-1f5d-4f41-9c4b-a28246506d9d/di1ybd1-dce6b322-143f-4704-a60c-15c9c8a99d8e.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzA1MGMzZTBjLTFmNWQtNGY0MS05YzRiLWEyODI0NjUwNmQ5ZFwvZGkxeWJkMS1kY2U2YjMyMi0xNDNmLTQ3MDQtYTYwYy0xNWM5YzhhOTlkOGUucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.nbnUqKbnsXVTtTt6ZBWS1GaZ6dIwthgYopfmOjNmsns">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/1838bae3-6b2e-486b-96ad-bfbe78da8d17/d1ohndi-59658ca8-a42f-48d4-8270-cfd069b54931.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzE4MzhiYWUzLTZiMmUtNDg2Yi05NmFkLWJmYmU3OGRhOGQxN1wvZDFvaG5kaS01OTY1OGNhOC1hNDJmLTQ4ZDQtODI3MC1jZmQwNjliNTQ5MzEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.y52pqHR8X2t2N2GNURzQknNQaEHjcEWKEL2ad6eEKWQ">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2516ae16-22b5-49e9-98f0-cbcd0acc44fb/d2eu6u0-a2412bc7-4e36-4cf0-874a-ee5971f63f0f.jpg/v1/fill/w_99,h_56,q_75,strp/support_headcrabs_by_feathery_wings_d2eu6u0-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTYiLCJwYXRoIjoiXC9mXC8yNTE2YWUxNi0yMmI1LTQ5ZTktOThmMC1jYmNkMGFjYzQ0ZmJcL2QyZXU2dTAtYTI0MTJiYzctNGUzNi00Y2YwLTg3NGEtZWU1OTcxZjYzZjBmLmpwZyIsIndpZHRoIjoiPD05OSJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.N1WNLYLcNH7vORvkJjy5HzRGxsaZRMkzqPULKgAx5rU">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/dae730d9-69cf-4856-98e2-183f3fdf0a52/dk4a74a-8ba1de9e-92fa-494c-b109-7f03704dda7f.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9kYWU3MzBkOS02OWNmLTQ4NTYtOThlMi0xODNmM2ZkZjBhNTIvZGs0YTc0YS04YmExZGU5ZS05MmZhLTQ5NGMtYjEwOS03ZjAzNzA0ZGRhN2YucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.o0s53dbphKKYDIRxFQ75lmamshVm5gEZoBtWgMePPj4">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/050c3e0c-1f5d-4f41-9c4b-a28246506d9d/di1ybkc-533564f3-dd32-4e77-8853-f62d5ad6e3fd.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi8wNTBjM2UwYy0xZjVkLTRmNDEtOWM0Yi1hMjgyNDY1MDZkOWQvZGkxeWJrYy01MzM1NjRmMy1kZDMyLTRlNzctODg1My1mNjJkNWFkNmUzZmQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.FH8KDIdyJM_RRMGqTe9iGs59scw_6drMcKeITP8R7pY">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/050c3e0c-1f5d-4f41-9c4b-a28246506d9d/di1yygi-b745e2d5-7fb9-4c92-b4e8-8652378c0bb3.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi8wNTBjM2UwYy0xZjVkLTRmNDEtOWM0Yi1hMjgyNDY1MDZkOWQvZGkxeXlnaS1iNzQ1ZTJkNS03ZmI5LTRjOTItYjRlOC04NjUyMzc4YzBiYjMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.0dmPltB2tg5BIMREZU98UY7oZesXb--ekhyaSK9fAFk">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/3d45c08b-4542-4268-bb70-2194b4ff5dac/dfodpd9-cffa1249-5b1b-456f-bc77-e6e15b2377de.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzNkNDVjMDhiLTQ1NDItNDI2OC1iYjcwLTIxOTRiNGZmNWRhY1wvZGZvZHBkOS1jZmZhMTI0OS01YjFiLTQ1NmYtYmM3Ny1lNmUxNWIyMzc3ZGUucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.kTDQ-N6gUZGLoqiRxvEL9bMLBIugtRBLINiCztF_zWY">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/050c3e0c-1f5d-4f41-9c4b-a28246506d9d/di1yagb-5d280bdc-0c6d-4293-8b8f-bdab594a84b2.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi8wNTBjM2UwYy0xZjVkLTRmNDEtOWM0Yi1hMjgyNDY1MDZkOWQvZGkxeWFnYi01ZDI4MGJkYy0wYzZkLTQyOTMtOGI4Zi1iZGFiNTk0YTg0YjIucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.REdO5x4p-uwupfdqq_Z24-VCy7aoG-llX7HO3MZrBC4">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/8d6eb24e-44be-4b57-9edf-0febfe170821/dg0dude-17c89fe7-11a9-48ff-9d05-3dcaa5e86701.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi84ZDZlYjI0ZS00NGJlLTRiNTctOWVkZi0wZmViZmUxNzA4MjEvZGcwZHVkZS0xN2M4OWZlNy0xMWE5LTQ4ZmYtOWQwNS0zZGNhYTVlODY3MDEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.15h0hZXSGz9KPt2g4hJPb8mQlSaanPVM3RWwA9tw1j4">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/050c3e0c-1f5d-4f41-9c4b-a28246506d9d/di1ybxj-b0b2b3a0-dcf3-4738-a0ac-5577b93b98e5.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi8wNTBjM2UwYy0xZjVkLTRmNDEtOWM0Yi1hMjgyNDY1MDZkOWQvZGkxeWJ4ai1iMGIyYjNhMC1kY2YzLTQ3MzgtYTBhYy01NTc3YjkzYjk4ZTUucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.6S568Wg7H3sC9f43xfD03VNGtX4RMoTuCWD-zOyIFk8">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/dae730d9-69cf-4856-98e2-183f3fdf0a52/dk485re-d70d54ca-436c-4975-8717-6608ba07365d.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9kYWU3MzBkOS02OWNmLTQ4NTYtOThlMi0xODNmM2ZkZjBhNTIvZGs0ODVyZS1kNzBkNTRjYS00MzZjLTQ5NzUtODcxNy02NjA4YmEwNzM2NWQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.nPnp3GX5s5NhwSjXbnEwCzGtilIY2rudbUIheOiflD4">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9327048e-506d-4bc1-b24c-5c3867151ae4/dasuws2-263dd807-3238-40a2-ac20-acbd25121fc9.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi85MzI3MDQ4ZS01MDZkLTRiYzEtYjI0Yy01YzM4NjcxNTFhZTQvZGFzdXdzMi0yNjNkZDgwNy0zMjM4LTQwYTItYWMyMC1hY2JkMjUxMjFmYzkucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.BJF1bxo0XLPRFCmHtr-0v6e86C1qsCsy5TAkaWQkCFw">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/b30728d9-69be-42aa-971e-4ae6cd2c819e/dlvypww-674028ce-a79f-464f-957b-6f9af5cc08dd.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9iMzA3MjhkOS02OWJlLTQyYWEtOTcxZS00YWU2Y2QyYzgxOWUvZGx2eXB3dy02NzQwMjhjZS1hNzlmLTQ2NGYtOTU3Yi02ZjlhZjVjYzA4ZGQuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.IytbwvZsjDu-yLpHxYaNkxynNxHqFgx3lTadaOWhcrA">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/33025984-9759-4e74-9ab3-8951ce110782/dhm2mfn-8a0424fd-0f1b-4974-8cd7-05059d9b2733.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzMzMDI1OTg0LTk3NTktNGU3NC05YWIzLTg5NTFjZTExMDc4MlwvZGhtMm1mbi04YTA0MjRmZC0wZjFiLTQ5NzQtOGNkNy0wNTA1OWQ5YjI3MzMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.j_HQFXip5f6s9OAIg0h7LtmZ81ARINrOnWfvJH_T71Q">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/8d6eb24e-44be-4b57-9edf-0febfe170821/dg0i1zy-78a81a86-2a99-4ba7-8d87-974883b9d0bc.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi84ZDZlYjI0ZS00NGJlLTRiNTctOWVkZi0wZmViZmUxNzA4MjEvZGcwaTF6eS03OGE4MWE4Ni0yYTk5LTRiYTctOGQ4Ny05NzQ4ODNiOWQwYmMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.yKMXW8xCk7RTNqM_JWyB1DhHA5RfSSWko44h649_qfk">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/8d6eb24e-44be-4b57-9edf-0febfe170821/db7k7xn-4b303b8c-460b-458c-bcd6-87929cdd61ad.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi84ZDZlYjI0ZS00NGJlLTRiNTctOWVkZi0wZmViZmUxNzA4MjEvZGI3azd4bi00YjMwM2I4Yy00NjBiLTQ1OGMtYmNkNi04NzkyOWNkZDYxYWQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.lrTTd1QSuCGG9HuPAwBy_4008Ew0Zzy7HEmKDjExUPU">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/dae730d9-69cf-4856-98e2-183f3fdf0a52/dk4abij-4a51f093-a1b0-48fe-9939-514ce38cec46.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9kYWU3MzBkOS02OWNmLTQ4NTYtOThlMi0xODNmM2ZkZjBhNTIvZGs0YWJpai00YTUxZjA5My1hMWIwLTQ4ZmUtOTkzOS01MTRjZTM4Y2VjNDYucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.7vHmTqZWcYynG5UsyR89POrYS6HQuUacvaAChPUtFLg">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/b30728d9-69be-42aa-971e-4ae6cd2c819e/dll6bm6-88fb454d-0000-4ed7-b5c1-abb7705f1b9d.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9iMzA3MjhkOS02OWJlLTQyYWEtOTcxZS00YWU2Y2QyYzgxOWUvZGxsNmJtNi04OGZiNDU0ZC0wMDAwLTRlZDctYjVjMS1hYmI3NzA1ZjFiOWQuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.zEIVdSj0CaW_8rD5TSjbAQmW7isIqb9DgxYYPt1gt-Y">
+                </marquee>
+            </div>
+
+            <!-- Poster / asset collage -->
+            <div id="CONTAINERI">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETWORMCAN.gif"
+                     style="position:absolute; top:-35px;  left:-60px;  transform:scale(0.45); z-index:20">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERLOVESEAT_II.jpg"
+                     style="position:absolute; top:-160px; left:65px;   transform:scale(0.18); z-index:5">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERTWINSINPARADISE.gif"
+                     style="position:absolute; top:-190px; left:-80px;  transform:scale(0.18); z-index:5">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERNERVES.jpg"
+                     style="position:absolute; top:-130px; left:4px;    transform:scale(0.3);  z-index:1">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERVWYN.gif"
+                     style="position:absolute; top:-130px; left:4px;    transform:scale(0.3);  z-index:1">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERHOMECOMING.jpg"
+                     style="position:absolute; top:-280px; left:-319px; transform:scale(0.13); z-index:1">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERCHROMATICA_V.jpg"
+                     style="position:absolute; top:-405px; left:-219px; transform:scale(0.09); z-index:20">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERCHROMATICA_IV.jpg"
+                     style="position:absolute; top:-139px; left:-270px; transform:scale(0.15); z-index:15">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERCHROMATICA_II.jpg"
+                     style="position:absolute; top:-380px; left:109px;  transform:scale(0.13); z-index:1">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERCHROMATICA_III.jpg"
+                     style="position:absolute; top:-180px; left:140px;  transform:scale(0.17); z-index:1">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERALIEN9.gif"
+                     style="position:absolute; top:-50px;  left:100px;  transform:scale(0.18); z-index:20">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/BGCARPETTRAIL.jpg"
+                     style="position:absolute; top:-190px; left:-140px; transform:scale(0.12); z-index:10">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETEYEBALL.gif"
+                     style="position:absolute; top:-190px; left:-140px; transform:scale(0.12); z-index:20">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETBURNEDCROSS.gif"
+                     style="position:absolute; top:90px;   left:398px;  transform:scale(0.6);  z-index:20">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSET_SMOKER.png"
+                     style="position:absolute; top:3px;    left:-109px; transform:scaleX(-1);  scale:0.4; z-index:20">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETCUT.png"
+                     style="position:absolute; top:-30px;  left:230px;  transform:scale(0.6);  z-index:20">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETSPRINGS.png"
+                     style="position:absolute; top:30px;   left:300px;  transform:scale(0.4);  z-index:20">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETREDDOVE.gif"
+                     style="position:absolute; top:-1px;   left:30px;   transform:scale(0.70); z-index:20">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETHEARHAND.png"
+                     style="position:absolute; top:-1px;   left:30px;   transform:scale(0.8);  z-index:20">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETSTUFFEDCAT.png"
+                     style="position:absolute; top:-165px; left:9px;    transform:scale(0.15); z-index:20">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETMEATHEART.png"
+                     style="position:absolute; top:-59px;  left:-127px; transform:scale(0.15); z-index:20">
+                <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETWTWTA.png"
+                     style="position:absolute; top:-380px; left:-99px;  transform:scale(0.12); z-index:0">
+            </div>
+
+        </section>
+
+
+        <!-- ══════════════════════════════════════
+             PAGE 3 — GALLERY II LANDING
+        ══════════════════════════════════════ -->
+
+        <section class="panel" id="PAGE_GALLERY_LANDING" data-index="2">
+            <div class="landing-media">
+                <img class="landing-image landing-image-wave"
+                     src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/refs/heads/main/TEXTGALLERY_V.png">
+                <img class="landing-image landing-image-main"
+                     src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/refs/heads/main/TEXTGALLERY_IIII.png">
+            </div>
+        </section>
+
+
+        <!-- ══════════════════════════════════════
+             PAGE 4 — GALLERY II CONTENTS
+        ══════════════════════════════════════ -->
+
+        <section class="panel" id="PAGE_GALLERY_MAIN" data-index="3">
+<div id="GALLERY_CONTAINER">
+
+                    
+<img src="https://github.com/GUTCUTZ/site-assets/blob/main/ASSETBOREDANGEL.png?raw=true" class="ICON">
+                    <a href="https://x.com/GUTTEDLIVE">ARTWORKS</a>
+                    <a href="https://x.com/GUTTEDLIVE">GUTTED LIVE</a>
+        </div>
+
+
+                <div id="TEXT_CYCLE">
+                    <div class="scroll-track">
+                        <span>DETH BY A THOUSAND CUTS &nbsp;•&nbsp; THIS SPACE IS UNDER CONSTRUCTION &nbsp;•&nbsp; IMAGES WILL LIVE HERE &nbsp;•&nbsp; ARCHIVE IN PROGRESS &nbsp;•&nbsp; SIGNAL INCOMPLETE &nbsp;•&nbsp;</span>
+                        <span>A MILLION LITTLE THINGS &nbsp;•&nbsp; THIS SPACE IS UNDER CONSTRUCTION &nbsp;•&nbsp; IMAGES WILL LIVE HERE &nbsp;•&nbsp; ARCHIVE IN PROGRESS &nbsp;•&nbsp; SIGNAL INCOMPLETE &nbsp;•&nbsp;</span>
+                    </div>
+                </div>
+
+                <div id="IMAGE_STRIP">
+                    <div class="image-track">
+                        <img src="https://i.imgur.com/CSbyWFG.png"  class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/NcUFnKp.jpeg" class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/aHXAJyi.jpeg" class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/l68hKtX.jpeg" class="wide" loading="lazy">
+                        <img src="https://i.imgur.com/7XTHu17.png"  class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/5LHemA5.jpeg" class="wide" loading="lazy">
+                        <img src="https://i.imgur.com/oSDwaLn.gif"  class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/cq1ew0J.jpeg" class="wide" loading="lazy">
+                        <img src="https://i.imgur.com/zKr1Jxg.png"  class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/88rQ5TJ.png"  class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/rVZFSwX.jpeg" class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/W1DcHnv.jpeg" class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/Zx3Mf2U.png"  class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/b9JyHFl.jpeg" class="wide" loading="lazy">
+                        <!-- duplicate for seamless loop -->
+                        <img src="https://i.imgur.com/CSbyWFG.png"  class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/NcUFnKp.jpeg" class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/aHXAJyi.jpeg" class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/l68hKtX.jpeg" class="wide" loading="lazy">
+                        <img src="https://i.imgur.com/7XTHu17.png"  class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/5LHemA5.jpeg" class="wide" loading="lazy">
+                        <img src="https://i.imgur.com/oSDwaLn.gif"  class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/cq1ew0J.jpeg" class="wide" loading="lazy">
+                        <img src="https://i.imgur.com/zKr1Jxg.png"  class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/88rQ5TJ.png"  class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/rVZFSwX.jpeg" class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/W1DcHnv.jpeg" class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/Zx3Mf2U.png"  class="tall" loading="lazy">
+                        <img src="https://i.imgur.com/b9JyHFl.jpeg" class="wide" loading="lazy">
+                    </div>
+                </div>
+
+                <div id="GALLERY_GRID">
+                    <div class="img-slot"></div>
+                    <div class="img-slot"></div>
+                    <div class="img-slot"></div>
+                    <div class="img-slot"></div>
+                    <div class="img-slot"></div>
+                    <div class="img-slot"></div>
+                </div>
+
+                <p>This is a blank template ready for artwork, photography, or visual assets.<br>Replace the slots above with your images.</p>
+
+            </div>
+        </section>
+
+
+    </div><!-- /SCROLL_ROOT -->
+
+
+    <!-- ══════════════════════════════════════════
+         SCRIPTS
+    ══════════════════════════════════════════ -->
+
+    <script>
+    /* ═══════════════════════════════════════════
+       UNIFIED INERTIA SCROLL ENGINE — 4 panels
+    ═══════════════════════════════════════════ */
+
+    const root   = document.getElementById('SCROLL_ROOT');
+    const doll       = document.getElementById('PAGE_DOLL');
+    const flourishes = document.getElementById('FLOURISHES');
+    const panels = [
+        document.getElementById('PAGE_GUTTED_LANDING'),
+        document.getElementById('PAGE_GUTTED_CONTENT'),
+        document.getElementById('PAGE_GALLERY_LANDING'),
+        document.getElementById('PAGE_GALLERY_MAIN'),
+    ];
+
+    let currentY    = 0;
+    let targetY     = 0;
+    let velocity    = 0;
+    let activePanel = 0;
+    let isAnimating = false;
+    let lastWheel   = 0;
+    let wheelAccum  = 0;
+    let locked      = false;
+
+    const LERP_EASE     = 0.072;
+    const VELOCITY_MUL  = 0.82;
+    const COMMIT_THRESH = 60;
+    const SETTLE_DIST   = 0.15;
+
+    function getPanelTop(index) {
+        let y = 0;
+        for (let i = 0; i < index; i++) y += panels[i].offsetHeight;
+        return y;
+
+        
+    }
+
+    function snapToPanel(index, nudge) {
+        nudge = nudge || 0;
+        activePanel = Math.max(0, Math.min(panels.length - 1, index));
+        targetY     = -getPanelTop(activePanel);
+        velocity    = nudge;
+        if (!isAnimating) tick();
+        updateMMNav();
+        updateGuttedLanding();
+
+setTimeout(function() {
+    var fadeOut = (activePanel >= 2);
+    [doll, flourishes].forEach(function(el) {
+        if (!el) return;
+        el.style.opacity       = fadeOut ? '0' : '1';
+        el.style.filter        = fadeOut ? 'blur(4px)' : '';
+        el.style.pointerEvents = fadeOut ? 'none' : 'auto';
+    });
+    history.replaceState(null, '', '#page' + activePanel);
+}, 50);
+
+}
+
+    function tick() {
+        isAnimating = true;
+        const dist = targetY - currentY;
+        currentY  += dist * LERP_EASE + velocity;
+        velocity  *= VELOCITY_MUL;
+        root.style.transform = 'translate3d(0,' + currentY + 'px,0)';
+        if (Math.abs(dist) < SETTLE_DIST && Math.abs(velocity) < 0.05) {
+            currentY    = targetY;
+            velocity    = 0;
+            locked      = false;
+            isAnimating = false;
+            root.style.transform = 'translate3d(0,' + currentY + 'px,0)';
+            return;
+            
+        }
+        requestAnimationFrame(tick);
+    }
+
+    
+
+
+
+    window.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        var now = performance.now();
+        if (now - lastWheel > 400) wheelAccum = 0;
+        lastWheel = now;
+        if (locked) return;
+        wheelAccum += e.deltaY;
+        if (Math.abs(wheelAccum) >= COMMIT_THRESH) {
+            var dir = wheelAccum > 0 ? 1 : -1;
+            wheelAccum = 0;
+            locked = true;
+            snapToPanel(activePanel + dir, dir * 1.8);
+        }
+    }, { passive: false });
+
+    var touchLastY = 0, touchVel = 0;
+
+    window.addEventListener('touchstart', function(e) {
+        touchLastY = e.touches[0].clientY;
+        touchVel   = 0;
+        velocity   = 0;
+    }, { passive: true });
+
+    var touchMovePending = false;
+    window.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+    var y = e.touches[0].clientY;
+    touchVel   = touchLastY - y;
+    touchLastY = y;
+    if (!locked && !touchMovePending) {
+        touchMovePending = true;
+        requestAnimationFrame(function() {
+            currentY -= touchVel * 0.6;
+            root.style.transform = 'translate3d(0,' + currentY + 'px,0)';
+            touchMovePending = false;
+        });
+    }
+}, { passive: false });
+
+    
+
+    window.addEventListener('touchend', function() {
+        if (Math.abs(touchVel) > 4) {
+            var dir = touchVel > 0 ? 1 : -1;
+            locked = true;
+            snapToPanel(activePanel + dir, touchVel * 0.5);
+        } else {
+            locked = true;
+            snapToPanel(Math.max(0, Math.min(panels.length - 1,
+                Math.round(-currentY / window.innerHeight))));
+        }
+    }, { passive: true });
+
+    window.addEventListener('keydown', function(e) {
+        if (locked) return;
+        if (e.key === 'ArrowDown' || e.key === 'PageDown') { locked = true; snapToPanel(activePanel + 1,  2); }
+        if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { locked = true; snapToPanel(activePanel - 1, -2); }
+    });
+
+    window.addEventListener('keydown', function(e) {
+        // number shortcuts — work regardless of locked state
+        var keyMap = { '1': 0, '2': 1, '3': 2, '4': 3 };
+        if (keyMap[e.key] !== undefined) { locked = false; snapToPanel(keyMap[e.key]); return; }
+        if (locked) return;
+        if (e.key === 'ArrowDown' || e.key === 'PageDown') { locked = true; snapToPanel(activePanel + 1,  2); }
+        if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { locked = true; snapToPanel(activePanel - 1, -2); }
+    });
+
+
+
+    /* ═══════════════════════════════════════════
+       MM NAV — only shows on pages 3 & 4 (index 2+)
+    ═══════════════════════════════════════════ */
+
+    var mmNav      = document.getElementById('MM_NAV');
+    var indicator  = document.getElementById('MM_INDICATOR');
+    var navLinks   = document.querySelectorAll('#MM_NAV .mm-item[data-panel]');
+    var navItems   = document.querySelectorAll('#MM_NAV .mm-item');
+
+    var panelNavMap = {};
+    navLinks.forEach(function(el) { panelNavMap[el.dataset.panel] = el; });
+
+    // Physics state
+    var indTX = 0, indTY = 0; // target
+    var indCX = 0, indCY = 0; // current position
+    var indVX = 0, indVY = 0; // velocity
+    var indRunning = false;
+
+    // Spring constants — lower spring = heavier/slower, higher damping = less oscillation
+    var SPRING   = 0.055;  // attraction force
+    var DAMPING  = 0.88;   // velocity retention (1 = no friction, 0 = instant stop)
+    var MAX_V    = 18;
+
+    function getItemCenter(el) {
+        var nr = mmNav.getBoundingClientRect();
+        var er = el.getBoundingClientRect();
+        return {
+            x: er.left - nr.left + er.width  / 2 - 10,
+            y: er.top  - nr.top  + er.height / 2 - 10
+        };
+    }
+
+    function setIndicatorTarget(el) {
+        var c = getItemCenter(el);
+        indTX = c.x; indTY = c.y;
+        if (!indRunning) { indRunning = true; requestAnimationFrame(tickIndicator); }
+    }
+
+    function snapIndicatorTo(el) {
+        // Hard-place indicator without animation (used on first show)
+        var c = getItemCenter(el);
+        indTX = indCX = c.x;
+        indTY = indCY = c.y;
+        indVX = 0; indVY = 0;
+        indicator.style.transform = 'translate3d(' + indCX + 'px,' + indCY + 'px,0)';
+    }
+
+    function tickIndicator() {
+        var dx = indTX - indCX;
+        var dy = indTY - indCY;
+        indVX += dx * SPRING;
+        indVY += dy * SPRING;
+        indVX *= DAMPING; indVY *= DAMPING;
+        indVX = Math.max(-MAX_V, Math.min(MAX_V, indVX));
+        indVY = Math.max(-MAX_V, Math.min(MAX_V, indVY));
+        indCX += indVX; indCY += indVY;
+        indicator.style.transform = 'translate3d(' + indCX + 'px,' + indCY + 'px,0)';
+        var dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 0.15 && Math.abs(indVX) < 0.04 && Math.abs(indVY) < 0.04) {
+            indCX = indTX; indCY = indTY; indVX = 0; indVY = 0;
+            indicator.style.transform = 'translate3d(' + indCX + 'px,' + indCY + 'px,0)';
+            indRunning = false;
+            return;
+        }
+        requestAnimationFrame(tickIndicator);
+    }
+
+    var navFirstShown = false;
+
+    function updateMMNav() {
+        if (activePanel >= 2) {
+            mmNav.classList.add('is-visible');
+            // On first appearance, hard-snap the indicator so it doesn't fly in from 0,0
+            if (!navFirstShown) {
+                navFirstShown = true;
+                var firstActive = panelNavMap[activePanel] || navLinks[0];
+                if (firstActive) {
+                    // Delay one frame so the nav is laid out before measuring
+                    requestAnimationFrame(function() { snapIndicatorTo(firstActive); });
+                }
+            }
+        } else {
+            mmNav.classList.remove('is-visible');
+        }
+
+        navLinks.forEach(function(el) {
+            el.classList.toggle('active', parseInt(el.dataset.panel) === activePanel);
+        });
+        var active = panelNavMap[activePanel];
+        if (active) setIndicatorTarget(active);
+    }
+
+    navItems.forEach(function(el) {
+        el.addEventListener('mouseenter', function() {
+            setIndicatorTarget(el);
+        });
+        el.addEventListener('mouseleave', function() {
+            // Return to the active panel's item
+            var active = panelNavMap[activePanel];
+            if (active) setIndicatorTarget(active);
+        });
+    });
+
+    navLinks.forEach(function(el) {
+        el.addEventListener('click', function() {
+            snapToPanel(parseInt(el.dataset.panel));
+        });
+    });
+
+
+    /* ═══════════════════════════════════════════
+       GUTTED LANDING PARALLAX (page 1 only)
+    ═══════════════════════════════════════════ */
+
+    function updateGuttedLanding() {
+        // Reveal landing content on page 1
+        if (activePanel === 0) {
+            setTimeout(function() {
+                var lc = document.querySelector('.LANDING_CONTENT');
+                if (lc) lc.classList.add('reveal');
+            }, 300);
+        }
+    }
+
+
+    /* ═══════════════════════════════════════════
+       PAGE DOLL HOVER
+    ═══════════════════════════════════════════ */
+
+    var pd   = document.getElementById("PD");
+    var drift;
+
+    pd.addEventListener("mouseenter", function() {
+        pd.classList.add("excited");
+        drift = setInterval(function() {
+            var x = (Math.random() - 0.5) * 2;
+            var y = (Math.random() - 0.5) * 2;
+            pd.style.transform += ' translate(' + x + 'px,' + y + 'px)';
+        }, 120);
+    });
+
+    pd.addEventListener("mouseleave", function() {
+        pd.classList.remove("excited");
+        clearInterval(drift);
+        pd.style.transform = "";
+    });
+
+
+    /* ═══════════════════════════════════════════
+       MUSIC PLAYER
+    ═══════════════════════════════════════════ */
+
+    const PLAYLIST = [
+        { title: "Radio Towers - Ethel Cain",  src: "https://github.com/GUTCUTZ/site-assets/raw/refs/heads/main/RADIO_TOWERS.mp3" },
+        { title: "Tempest - Ethel Cain",  src: "https://github.com/GUTCUTZ/site-assets/raw/refs/heads/main/TEMPEST.mp3" },
+        { title: "David Ortiz Pillbox - Backseat Girl",  src: "https://github.com/GUTCUTZ/site-assets/raw/refs/heads/main/Backseat%20Girl%20David%20Ortiz%20Pillbox.mp3" },
+        { title: "Dust Bowl - JR Cover",  src: "https://github.com/GUTCUTZ/site-assets/raw/refs/heads/main/DUST_BOWL_JR.mp3" },
+        { title: "Tempest Demo I - Ethel Cain",  src: "https://github.com/GUTCUTZ/site-assets/raw/refs/heads/main/TEMPEST_DEMO_I.mp3" },
+        { title: "Forces - Oklou",  src: "https://github.com/GUTCUTZ/site-assets/raw/refs/heads/main/FORCES.mp3" },
+        { title: "Two Headed Mother - Ethel Cain",  src: "https://raw.githubusercontent.com/GUTCUTZ/site-assets/refs/heads/main/TWOHEADEDMOTHER.mp4" },
+        { title: "Endless - Oklou",  src: "https://github.com/GUTCUTZ/site-assets/raw/refs/heads/main/ENDLESS.mp3" },
+        { title: "Contingency Song - Jane Remover",      src: "https://github.com/GUTCUTZ/site-assets/raw/refs/heads/main/Contingency%20Song%20(Album%20Version).mp3" },
+        { title: "Faust - Bladee ",  src: "https://github.com/GUTCUTZ/site-assets/raw/refs/heads/main/FAUST.mp3" },
+        { title: "Michelle Pfeiffer - Ethel Cain",  src: "https://github.com/GUTCUTZ/site-assets/raw/refs/heads/main/michelle%20pfeiffer%20(solo).mp3" },
+        { title: "Punish Demo II - Ethel Cain",          src: "https://github.com/GUTCUTZ/site-assets/raw/refs/heads/main/Ethel%20Cain%20Punish%20Demo%20II.mp3" },
+        { title: "Take me by the Hand - Oklou & Bladee",  src: "https://github.com/GUTCUTZ/site-assets/raw/refs/heads/main/TAKE%20ME%20BY%20THE%20HAND.mp3" },
+    ];
+
+    let mpIndex   = 0;
+    let mpPlaying = false;
+    let hasStarted = false;
+
+    function startMusicOnce() {
+        if (hasStarted) return;
+        hasStarted = true;
+        mpLoad(0, true);
+    }
+
+    document.addEventListener("click",   startMusicOnce);
+    document.addEventListener("keydown", startMusicOnce);
+
+    const audio        = document.getElementById("AUDIO_EL");
+    const titleEl      = document.getElementById("MP_TITLE");
+    const fillEl       = document.getElementById("MP_PROGRESS_FILL");
+    const playlistWrap = document.getElementById("MP_PLAYLIST_WRAP");
+
+    function mpLoad(i, andPlay) {
+        if (!PLAYLIST.length) return;
+        mpIndex  = (i + PLAYLIST.length) % PLAYLIST.length;
+        audio.src = PLAYLIST[mpIndex].src;
+        titleEl.textContent = PLAYLIST[mpIndex].title;
+        fillEl.style.width  = "0%";
+        mpUpdateList();
+        if (andPlay) audio.play().then(function() { mpPlaying = true; mpSetIcon(); });
+    }
+
+    function mpSetIcon() {
+        document.getElementById("MP_PLAYPAUSE").innerHTML = mpPlaying ? "&#9646;&#9646;" : "&#9654;";
+    }
+
+    function mpBuildList() {
+        playlistWrap.innerHTML = "";
+        PLAYLIST.forEach(function(track, i) {
+            var item = document.createElement("div");
+            item.className = "MP_TRACK_ITEM" + (i === mpIndex ? " active" : "");
+            item.textContent = track.title;
+            item.addEventListener("click", function() { mpLoad(i, true); });
+            playlistWrap.appendChild(item);
+        });
+    }
+
+    function mpUpdateList() {
+        document.querySelectorAll(".MP_TRACK_ITEM")
+            .forEach(function(el, i) { el.classList.toggle("active", i === mpIndex); });
+    }
+
+    var player = document.getElementById("MUSIC_PLAYER");
+    var isDragging = false, offsetX, offsetY;
+
+    player.addEventListener("mousedown", function(e) {
+        if (e.target.closest("button")) return;
+        isDragging = true;
+        var rect = player.getBoundingClientRect();
+        player.style.left      = rect.left + "px";
+        player.style.top       = rect.top  + "px";
+        player.style.transform = "none";
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        player.style.cursor = "grabbing";
+    });
+
+    document.addEventListener("mousemove", function(e) {
+        if (!isDragging) return;
+        player.style.left      = (e.clientX - offsetX) + "px";
+        player.style.top       = (e.clientY - offsetY) + "px";
+        player.style.transform = "none";
+    });
+
+    document.addEventListener("mouseup", function() {
+        isDragging = false;
+        player.style.cursor = "grab";
+    });
+
+    document.getElementById("MP_PLAYPAUSE").addEventListener("click", function() {
+        if (!PLAYLIST.length) return;
+        if (mpPlaying) {
+            audio.pause(); mpPlaying = false;
+        } else {
+            if (!audio.src || audio.src === window.location.href) mpLoad(mpIndex, false);
+            audio.play(); mpPlaying = true;
+        }
+        mpSetIcon();
+    });
+
+    document.getElementById("MP_PREV").addEventListener("click", function() { mpLoad(mpIndex - 1, mpPlaying); });
+    document.getElementById("MP_NEXT").addEventListener("click", function() { mpLoad(mpIndex + 1, mpPlaying); });
+
+    document.getElementById("MP_LIST").addEventListener("click", function() {
+        playlistWrap.classList.toggle("open");
+    });
+
+    audio.addEventListener("timeupdate", function() {
+        if (audio.duration) fillEl.style.width = (audio.currentTime / audio.duration * 100) + "%";
+    });
+
+    document.getElementById("MP_PROGRESS_WRAP").addEventListener("click", function(e) {
+        if (!audio.duration) return;
+        var rect = e.currentTarget.getBoundingClientRect();
+        audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+    });
+
+    audio.addEventListener("ended", function() { mpLoad(mpIndex + 1, true); });
+
+    var minimizeBtn = document.getElementById("MP_MINIMIZE");
+    var restoreBtn  = document.getElementById("MP_RESTORE");
+    var minimized   = false;
+
+    minimizeBtn.addEventListener("click", function() {
+        minimized = !minimized;
+        player.classList.toggle("minimized", minimized);
+        restoreBtn.style.display = minimized ? "flex" : "none";
+    });
+
+    restoreBtn.addEventListener("click", function() {
+        minimized = false;
+        player.classList.remove("minimized");
+        restoreBtn.style.display = "none";
+    });
+
+    if (PLAYLIST.length) {
+        mpLoad(0, false);
+        mpBuildList();
+    } else {
+        titleEl.textContent = "add tracks to PLAYLIST";
+    }
+
+
+    /* ═══════════════════════════════════════════
+       REVEAL ANIMATIONS (page 2)
+    ═══════════════════════════════════════════ */
+
+    window.addEventListener("load", function() {
+        setTimeout(function() {
+            document.querySelectorAll(".reveal-text").forEach(function(el) { el.classList.add("reveal-show"); });
+        }, 200);
+        setTimeout(function() {
+            document.querySelectorAll(".reveal-mid").forEach(function(el) { el.classList.add("reveal-show"); });
+        }, 600);
+        setTimeout(function() {
+            document.querySelectorAll(".reveal-slow").forEach(function(el) { el.classList.add("reveal-show"); });
+        }, 1100);
+
+        var hash = window.location.hash;
+        var startPanel = 0;
+        if (hash === '#page1') startPanel = 1;
+        if (hash === '#page2') startPanel = 2;
+        if (hash === '#page3') startPanel = 3;
+        snapToPanel(startPanel);
+    });
+
+    </script>
+
+</body>
+</html>
