@@ -10,10 +10,9 @@
      ════════════════════════════════════════════════════ -->
 
 <head>
-     <title>&#9769; GUTTED &#9769;</title>
-     <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETREDDOVE.gif">
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&#9769; GUTTED &#9769;</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
 
@@ -849,23 +848,8 @@
             to   { transform: translateX(-50%); }
         }
 
-        /* ── IMAGE GRID ── */
-        #GALLERY_GRID {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
 
-        .img-slot {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .img-slot img { width: 100%; height: 100%; object-fit: cover; }
+        /* ── IMAGE GRID — replaced by gallery-item styles below ── */
 
         #PAGE_GALLERY_MAIN p {
             max-width: 700px;
@@ -1339,24 +1323,24 @@
                 width: 22px;
                 height: 60px;
                 z-index: 20000;
-                background: rgba(109,62,23,0.7);
+                background: rgba(0, 0, 0, 0);
                 backdrop-filter: blur(6px);
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 cursor: pointer;
                 writing-mode: vertical-lr;
-                font-size: 8px;
-                letter-spacing: 3px;
-                color: rgba(195,182,165,0.7);
+                font-size: 30px;
+                letter-spacing: 0px;
+                color: rgb(195, 182, 165);
                 text-transform: uppercase;
-                border-radius: 0 8px 8px 0;
+                border-radius: 0 50px 50px 0;
                 transition: background 0.2s;
             }
-            .mob-drawer-tab:active { background: rgba(140,80,30,0.85); }
+            .mob-drawer-tab:active { background: #6A2309;  }
 
-            #MOB_LEFT_TAB  { left: 0;  border-radius: 0 8px 8px 0; }
-            #MOB_RIGHT_TAB { right: 0; border-radius: 8px 0 0 8px; writing-mode: vertical-rl; }
+            #MOB_LEFT_TAB  { left: 0;  border-radius: 0 50px 50px 0; }
+            #MOB_RIGHT_TAB { right: 0; border-radius: 50px 0 0 50px; writing-mode: vertical-rl; }
 
             /* drawer inner scroll area */
             .mob-drawer-scroll {
@@ -1364,8 +1348,9 @@
                 overflow-y: auto;
                 padding-top: 8px;
                 font-size: 0.65rem;
+                            backdrop-filter: blur(5px);
                 line-height: 1.7;
-                color: rgba(195,182,165,0.8);
+                color: rgb(195, 182, 165);
             }
 
             /* close X inside each drawer */
@@ -1380,9 +1365,50 @@
                 line-height: 1;
             }
 
-            /* ── IMAGE STRIP: let it scroll naturally on mobile ── */
+            /* ── IMAGE STRIP: large, anchored to bottom on mobile ── */
+            #IMAGE_STRIP {
+                position: fixed !important;
+                bottom: 0;
+                left: 0;
+                width: 100vw;
+                height: 82vh;
+                z-index: 50;
+                overflow: hidden;
+                display: flex;
+                align-items: flex-end;
+                margin-top: 0 !important;
+                cursor: grab;
+            }
+            #IMAGE_STRIP.is-dragging { cursor: grabbing; }
+            #TEXT_CYCLE {
+                position: fixed;
+                bottom: 82vh;
+                left: 0;
+                width: 100%;
+                z-index: 51;
+                margin-bottom: 0;
+            }
+            .image-track {
+                align-items: flex-end !important;
+            }
             .image-track img.tall,
-            .image-track img.wide { height: 260px; }
+            .image-track img.wide {
+                height: 78vh !important;
+                width: auto;
+            }
+            /* Hide desktop-only gallery section on mobile */
+            #GALLERY_SECTION_HEADER,
+            #GALLERY_GRID,
+            #GALLERY_BUMPER { display: none; }
+            #PAGE_GALLERY_MAIN {
+                height: 100vh !important;
+                min-height: 100vh !important;
+                overflow: hidden !important;
+                padding: 0 !important;
+            }
+            #GALLERY_CONTAINER {
+                padding-top: 8px;
+            }
 
 
             /* ── MM NAV: hide on mobile (touch has no cursor to follow) ── */
@@ -1399,7 +1425,697 @@
                 display: none !important;
             }
 
+
+        /* ══════════════════════════════════════════
+           IMAGE STRIP — DESKTOP DRAG UPGRADE
+        ══════════════════════════════════════════ */
+        #IMAGE_STRIP {
+            overflow: hidden;
+            position: relative;
+            cursor: grab;
+            user-select: none;
+            touch-action: pan-y;
         }
+        #IMAGE_STRIP.is-dragging { cursor: grabbing; }
+        .image-track {
+            will-change: transform;
+            align-items: flex-end;
+        }
+
+
+        /* ══════════════════════════════════════════
+           GALLERY SECTION — ROQLARUE STYLE
+        ══════════════════════════════════════════ */
+        #GALLERY_SECTION_HEADER {
+            padding: 50px 28px 14px;
+            display: flex;
+            align-items: baseline;
+            gap: 20px;
+            border-bottom: 1px solid rgba(195,182,165,0.1);
+            margin: 0 28px;
+        }
+        #GALLERY_SECTION_HEADER h2 {
+            font-family: UnifrakturMaguntia, serif;
+            font-size: 1.1rem;
+            letter-spacing: 10px;
+            color: rgba(195,182,165,0.35);
+            font-weight: normal;
+        }
+        #GALLERY_SECTION_HEADER span {
+            font-size: 0.48rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(195,182,165,0.2);
+        }
+        #GALLERY_GRID {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 3px;
+            padding: 3px 28px 100px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 1;
+            background: rgba(8,6,4,0.9);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.7s cubic-bezier(0.2,0.9,0.2,1),
+                        filter 0.5s ease;
+            filter: contrast(1.05) brightness(0.88) sepia(18%);
+        }
+        .gallery-item:hover img {
+            transform: scale(1.06);
+            filter: contrast(1.1) brightness(1.0) sepia(4%);
+        }
+        .gallery-item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top,
+                rgba(4,3,2,0.92) 0%,
+                rgba(4,3,2,0.2) 45%,
+                transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 18px 16px 16px;
+        }
+        .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+        .gallery-item-title {
+            font-family: UnifrakturMaguntia, serif;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            color: #c3b6a5;
+            line-height: 1.3;
+            margin-bottom: 3px;
+        }
+        .gallery-item-date {
+            font-size: 0.48rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(195,182,165,0.4);
+        }
+        .gallery-item-num {
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            font-size: 0.44rem;
+            letter-spacing: 3px;
+            color: rgba(195,182,165,0.25);
+            font-family: Helvetica, sans-serif;
+        }
+        #GALLERY_BUMPER { height: 20px; }
+
+
+        /* ══════════════════════════════════════════
+           PIECE DETAIL OVERLAY
+        ══════════════════════════════════════════ */
+        #PIECE_DETAIL {
+            position: fixed;
+            inset: 0;
+            z-index: 99995;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(60px);
+            transition: opacity 0.65s cubic-bezier(0.2,0.9,0.2,1),
+                        transform 0.65s cubic-bezier(0.2,0.9,0.2,1);
+            background-image: url("https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/BGCONCRETE.jpg");
+            background-repeat: repeat;
+            background-size: 50% auto;
+        }
+        #PIECE_DETAIL::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(6,4,3,0.78);
+            z-index: 0;
+            pointer-events: none;
+        }
+        #PIECE_DETAIL.open {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateX(0);
+        }
+        #PIECE_DETAIL > * { position: relative; z-index: 1; }
+
+        #PD_TOPBAR {
+            position: relative;
+            z-index: 10;
+            height: 52px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            border-bottom: 1px solid rgba(195,182,165,0.1);
+            background: rgba(6,4,3,0.5);
+            backdrop-filter: blur(8px);
+        }
+        #PD_CLOSE {
+            background: none;
+            border: none;
+            color: rgba(195,182,165,0.4);
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: inherit;
+            transition: color 0.2s;
+        }
+        #PD_CLOSE:hover { color: #c3b6a5; }
+        #PD_ACTIONS { display: flex; gap: 10px; align-items: center; }
+        .PD_ACTION_BTN {
+            background: none;
+            border: 1px solid rgba(195,182,165,0.18);
+            color: rgba(195,182,165,0.45);
+            font-size: 0.52rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.25s ease;
+        }
+        .PD_ACTION_BTN:hover {
+            background: rgba(195,182,165,0.07);
+            color: #c3b6a5;
+            border-color: rgba(195,182,165,0.35);
+        }
+        #PD_BODY {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            min-height: 0;
+        }
+        #PD_LEFT {
+            flex: 0 0 62%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            border-right: 1px solid rgba(195,182,165,0.07);
+        }
+        #PD_IMAGE_WRAP {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        #PD_IMAGE {
+            max-width: 94%;
+            max-height: 94%;
+            object-fit: contain;
+            transition: transform 0.55s cubic-bezier(0.2,0.9,0.2,1),
+                        filter 0.4s ease;
+            filter: contrast(1.05) sepia(10%);
+            transform-origin: center center;
+            display: block;
+            box-shadow:
+                rgba(0,0,0,0.5) 0px 20px 60px,
+                rgba(109,62,23,0.2) 0px 0px 30px;
+        }
+        #PD_ZOOM_CONTROLS {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 5;
+        }
+        .PD_ZOOM_BTN {
+            width: 30px; height: 30px;
+            background: rgba(6,4,3,0.75);
+            border: 1px solid rgba(195,182,165,0.18);
+            border-radius: 50%;
+            color: rgba(195,182,165,0.55);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+        }
+        .PD_ZOOM_BTN:hover { color: #c3b6a5; border-color: rgba(195,182,165,0.4); background: rgba(15,10,6,0.9); }
+        #PD_RIGHT {
+            flex: 0 0 38%;
+            overflow-y: auto;
+            padding: 36px 32px 40px;
+            display: flex;
+            flex-direction: column;
+        }
+        #PD_TITLE {
+            font-family: UnifrakturMaguntia, serif;
+            font-size: 1.7rem;
+            color: #c3b6a5;
+            letter-spacing: 4px;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+        #PD_DATE {
+            font-size: 0.52rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: rgba(195,182,165,0.3);
+            margin-bottom: 26px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(195,182,165,0.1);
+        }
+        #PD_DESC {
+            font-size: 0.73rem;
+            line-height: 1.9;
+            color: rgba(195,182,165,0.62);
+            margin-bottom: 26px;
+            flex: 1;
+        }
+        #PD_TAGS { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 30px; }
+        .PD_TAG {
+            font-size: 0.46rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border: 1px solid rgba(195,182,165,0.16);
+            border-radius: 20px;
+            color: rgba(195,182,165,0.4);
+        }
+        #PD_RELATED_LABEL {
+            font-size: 0.5rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(195,182,165,0.22);
+            margin-bottom: 12px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(195,182,165,0.1);
+        }
+        #PD_RELATED {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+        }
+        .PD_RELATED_ITEM {
+            aspect-ratio: 1;
+            overflow: hidden;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .PD_RELATED_ITEM img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.05) sepia(22%) brightness(0.75);
+            transition: filter 0.3s ease, transform 0.4s ease;
+        }
+        .PD_RELATED_ITEM:hover img {
+            filter: contrast(1.1) sepia(6%) brightness(0.95);
+            transform: scale(1.07);
+        }
+        @media (max-width: 768px) {
+            #PD_BODY { flex-direction: column; }
+            #PD_LEFT { flex: 0 0 48vh; border-right: none; border-bottom: 1px solid rgba(195,182,165,0.08); }
+            #PD_RIGHT { flex: 1; padding: 20px; }
+            #PD_TITLE { font-size: 1.2rem; }
+        }
+
+        /* ══════════════════════════════════════════
+           BLOG DRAWER — RIGHT SIDE (TUMBLR / CUSTOM)
+        ══════════════════════════════════════════ */
+        #BLOG_HEADER {
+            font-size: 0.5rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgb(195, 182, 165);
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(195,182,165,0.1);
+            margin-bottom: 14px;
+        }
+        .blog-post-card {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(195,182,165,0.09);
+            cursor: pointer;
+            transition: background 0.2s;
+            border-radius: 4px;
+        }
+        .blog-post-card:hover { background: rgba(195,182,165,0.04); padding-left: 6px; padding-right: 6px; }
+        .blog-post-img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            filter: sepia(20%) contrast(1.05);
+            display: none;
+        }
+        .blog-post-img.has-img { display: block; }
+        .blog-post-title {
+            font-family: UnifrakturMaguntia, serif;
+            font-size: 0.82rem;
+            letter-spacing: 2px;
+            color: #c3b6a5;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+        .blog-post-body {
+            font-size: 0.57rem;
+            line-height: 1.65;
+            color: rgb(195, 182, 165);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+        .blog-post-date {
+            font-size: 0.44rem;
+            letter-spacing: 3px;
+            color: rgba(195, 182, 165, 0.50);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .blog-post-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+        .blog-post-tag {
+            font-size: 0.42rem;
+            letter-spacing: 2px;
+            color: rgb(195, 182, 165, 0.50);
+            text-transform: uppercase;
+        }
+        .blog-post-tag::before { content: "#"; }
+        #BLOG_LOADING {
+            text-align: center;
+            font-size: 0.52rem;
+            letter-spacing: 3px;
+            color: rgb(195, 182, 165);
+            padding: 20px 0;
+            animation: textFlicker 2s infinite;
+        }
+        #BLOG_TUMBLR_LINK {
+            display: block;
+            text-align: center;
+            font-size: 0.46rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgb(195, 182, 165);
+            padding: 10px 0;
+            border-top: 1px solid rgba(195,182,165,0.08);
+            margin-top: 8px;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        #BLOG_TUMBLR_LINK:hover { color: rgba(195,182,165,0.55); }
+        /* Admin post button */
+        #BLOG_ADMIN_BTN {
+            width: 100%;
+            background: none;
+            border: 1px solid rgba(195,182,165,0.12);
+            border-radius: 20px;
+            padding: 7px;
+            font-size: 0.47rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgb(195, 182, 165);
+            cursor: pointer;
+            font-family: inherit;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        #BLOG_ADMIN_BTN:hover { color: rgba(195,182,165,0.55); border-color: rgba(195,182,165,0.28); }
+        #BLOG_POST_FORM {
+            display: none;
+            flex-direction: column;
+            gap: 7px;
+            margin-bottom: 16px;
+            padding: 14px;
+            border: 1px solid rgba(195,182,165,0.14);
+            border-radius: 16px;
+            background: rgba(6,4,3,0.6);
+        }
+        #BLOG_POST_FORM.open { display: flex; }
+        .BLOG_INPUT {
+            background: rgba(8,6,4,0.85);
+            border: 1px solid rgba(195,182,165,0.14);
+            border-radius: 10px;
+            padding: 7px 10px;
+            font-size: 0.6rem;
+            color: #c3b6a5;
+            outline: none;
+            font-family: inherit;
+            resize: vertical;
+        }
+        .BLOG_INPUT::placeholder { color: rgba(195,182,165,0.22); }
+        .BLOG_INPUT:focus { border-color: rgba(195,182,165,0.32); }
+        .BLOG_SUBMIT {
+            background: rgba(106,35,9,0.45);
+            border: 1px solid rgba(195,182,165,0.18);
+            border-radius: 10px;
+            padding: 7px;
+            font-size: 0.52rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #c3b6a5;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s;
+        }
+        .BLOG_SUBMIT:hover { background: rgba(140,50,14,0.65); }
+        #BLOG_PASSKEY_ROW { display: flex; gap: 6px; }
+        #BLOG_PASSKEY_ROW input { flex: 1; }
+
+        /* ── BLOG POST DETAIL FULL-SCREEN ── */
+        #BLOG_POST_DETAIL {
+            position: fixed;
+            inset: 0;
+            z-index: 99993;
+            background-image: url(https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/POSTERWTWTA.jpg);
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2,0.9,0.2,1);
+            overflow-y: auto;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        #BLOG_POST_DETAIL::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(4,3,2,0.85);
+            pointer-events: none;
+            z-index: 0;
+        }
+        #BLOG_POST_DETAIL.open {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+        #BPD_INNER {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 60px 28px 100px;
+            width: 100%;
+        }
+        .BPD_CLOSE {
+            display: block;
+            margin-bottom: 28px;
+            background: none;
+            border: none;
+            color: rgba(195,182,165,0.3);
+            font-size: 10px;
+            letter-spacing: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            text-transform: uppercase;
+            transition: color 0.2s;
+            padding: 0;
+            text-align: left;
+        }
+        .BPD_CLOSE:hover { color: rgba(195,182,165,0.7); }
+        #BPD_TITLE {
+            font-family: UnifrakturMaguntia, serif;
+            font-size: 1.6rem;
+            color: #c3b6a5;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        #BPD_DATE {
+            font-size: 0.48rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: rgba(195,182,165,0.28);
+            margin-bottom: 26px;
+        }
+        #BPD_IMG {
+            width: 100%;
+            border-radius: 14px;
+            margin-bottom: 22px;
+            display: none;
+            filter: sepia(15%) contrast(1.05);
+        }
+        #BPD_IMG.show { display: block; }
+        #BPD_BODY {
+            font-size: 0.75rem;
+            line-height: 1.9;
+            color: rgba(195,182,165,0.65);
+            margin-bottom: 26px;
+        }
+        #BPD_TAGS { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 30px; }
+        .BPD_TAG {
+            font-size: 0.44rem;
+            letter-spacing: 2px;
+            color: rgba(195,182,165,0.32);
+            text-transform: uppercase;
+            border: 1px solid rgba(195,182,165,0.14);
+            padding: 3px 9px;
+            border-radius: 12px;
+        }
+        #BPD_COMMENTS_SECTION {
+            border-top: 1px solid rgba(195,182,165,0.1);
+            padding-top: 24px;
+            margin-top: 10px;
+        }
+        #BPD_COMMENTS_LABEL {
+            font-size: 0.48rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(195,182,165,0.22);
+            margin-bottom: 16px;
+        }
+        .bpd-comment {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(195,182,165,0.07);
+        }
+        .bpd-comment-name {
+            font-size: 0.5rem;
+            letter-spacing: 3px;
+            color: rgba(195,182,165,0.45);
+            margin-bottom: 3px;
+            text-transform: uppercase;
+        }
+        .bpd-comment-text {
+            font-size: 0.65rem;
+            line-height: 1.65;
+            color: rgba(195,182,165,0.5);
+        }
+        #BPD_COMMENT_FORM {
+            margin-top: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+        #BPD_COMMENT_LABEL {
+            font-size: 0.48rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(195,182,165,0.25);
+            margin-bottom: 4px;
+        }
+
+        /* ══════════════════════════════════════════
+           MOBILE LEFT DRAWER — MUSIC PLAYER
+        ══════════════════════════════════════════ */
+        @media (max-width: 768px) {
+            #MUSIC_PLAYER { display: none !important; }
+            #MP_RESTORE   { display: none !important; }
+        }
+        #MOB_MP_TRACK { text-align: center; margin-bottom: 10px; }
+        #MOB_MP_LABEL {
+            display: block;
+            font-size: 0.52rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(195,182,165,0.4);
+            margin-bottom: 3px;
+        }
+        #MOB_MP_TITLE {
+            display: block;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            color: #c3b6a5;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #MOB_MP_PROGRESS_WRAP {
+            width: 100%;
+            height: 3px;
+            background: rgba(195,182,165,0.14);
+            border-radius: 2px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        #MOB_MP_PROGRESS_FILL {
+            height: 100%;
+            width: 0%;
+            background: rgba(195,182,165,0.6);
+            border-radius: 2px;
+            transition: width 0.25s linear;
+            pointer-events: none;
+        }
+        #MOB_MP_CONTROLS {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            margin: 6px 0;
+        }
+        .MOB_MP_BTN {
+            background: none;
+            border: none;
+            color: #c3b6a5;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 4px;
+            opacity: 0.7;
+            transition: opacity 0.2s, transform 0.15s;
+            font-family: inherit;
+        }
+        .MOB_MP_BTN:hover  { opacity: 1; transform: scale(1.15); }
+        .MOB_MP_BTN:active { transform: scale(0.95); }
+        #MOB_MP_PLAYPAUSE  { font-size: 1.3rem; opacity: 0.9; }
+        #MOB_MP_PLAYLIST_WRAP {
+            margin-top: 12px;
+            border-top: 1px solid rgba(195,182,165,0.13);
+            padding-top: 8px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        .MOB_TRACK_ITEM {
+            font-size: 0.64rem;
+            letter-spacing: 1px;
+            padding: 6px 8px;
+            cursor: pointer;
+            border-radius: 6px;
+            color: rgba(195,182,165,0.58);
+            transition: background 0.15s, color 0.15s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .MOB_TRACK_ITEM:hover  { background: rgba(195,182,165,0.07); color: #c3b6a5; }
+        .MOB_TRACK_ITEM.active { color: #c3b6a5; background: rgba(109,35,9,0.28); }
     </style>
 </head>
 
@@ -1431,13 +2147,26 @@
     <div id="MOB_LEFT_TAB" class="mob-drawer-tab" onclick="
         document.getElementById('MOB_LEFT_DRAWER').classList.toggle('open');
         document.getElementById('MOB_RIGHT_DRAWER').classList.remove('open');
-    ">✦</div>
+    ">🃵</div>
 
     <div id="MOB_LEFT_DRAWER" class="mob-drawer">
-        <button class="mob-drawer-close" onclick="document.getElementById('MOB_LEFT_DRAWER').classList.remove('open')">✕</button>
-        <div class="mob-drawer-scroll">
-            <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETHEAD.png" width="auto" height="120" style="display:block;margin:0 auto 12px;">
-            <p>I tell all my friends everything you do, a sick obsession that I still try to prove.</p>
+        <button class="mob-drawer-close" onclick="document.getElementById('MOB_LEFT_DRAWER').classList.remove('open')">✣</button>
+        <div class="mob-drawer-scroll" style="display:flex;flex-direction:column;gap:0;padding-top:6px;">
+            <!-- ♪ MOBILE MUSIC PLAYER ♪ -->
+            <div style="font-size:0.52rem;letter-spacing:5px;text-transform:uppercase;color:rgba(195,182,165,0.3);text-align:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(195,182,165,0.12);">khuh 104.9 fm</div>
+            <div id="MOB_MP_TRACK">
+                <span id="MOB_MP_LABEL">✠broadcasting✠</span>
+                <span id="MOB_MP_TITLE">—</span>
+            </div>
+            <div id="MOB_MP_PROGRESS_WRAP">
+                <div id="MOB_MP_PROGRESS_FILL"></div>
+            </div>
+            <div id="MOB_MP_CONTROLS">
+                <button class="MOB_MP_BTN" id="MOB_MP_PREV"      title="previous">&#9664;&#9664;</button>
+                <button class="MOB_MP_BTN" id="MOB_MP_PLAYPAUSE" title="play / pause">&#9654;</button>
+                <button class="MOB_MP_BTN" id="MOB_MP_NEXT"      title="next">&#9654;&#9654;</button>
+            </div>
+            <div id="MOB_MP_PLAYLIST_WRAP"></div>
         </div>
     </div>
 
@@ -1445,25 +2174,32 @@
     <div id="MOB_RIGHT_TAB" class="mob-drawer-tab" onclick="
         document.getElementById('MOB_RIGHT_DRAWER').classList.toggle('open');
         document.getElementById('MOB_LEFT_DRAWER').classList.remove('open');
-    ">✦</div>
+    ">🂠</div>
 
     <div id="MOB_RIGHT_DRAWER" class="mob-drawer">
         <button class="mob-drawer-close" onclick="document.getElementById('MOB_RIGHT_DRAWER').classList.remove('open')">✕</button>
-        <div class="mob-drawer-scroll">
-            <div style="font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;color:rgba(195,182,165,0.5);text-align:center;margin-bottom:10px;">✶ UP AND COMING ✶</div>
-            <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETWTWTA.gif" style="width:100%;border-radius:20px;margin-bottom:10px;">
-            <div style="display:flex;gap:4px;margin-bottom:6px;">
-                <input id="MOB_VIDEO_URL" type="text" placeholder="youtube url…" autocomplete="off" spellcheck="false"
-                    style="flex:1;background:rgba(20,15,10,0.7);border:1px solid rgba(195,182,165,0.2);border-radius:20px;padding:4px 10px;font-size:0.6rem;color:#c3b6a5;outline:none;">
-                <button onclick="
-                    var raw = document.getElementById('MOB_VIDEO_URL').value.trim();
-                    var embed = ytEmbedUrl(raw);
-                    if (embed) document.getElementById('RB_VIDEO_IFRAME').src = embed;
-                " style="background:rgba(106,35,9,0.5);border:1px solid rgba(195,182,165,0.2);border-radius:20px;padding:4px 10px;font-size:0.6rem;color:#c3b6a5;cursor:pointer;">▶</button>
+        <div class="mob-drawer-scroll" style="padding-top:4px;">
+            <div id="BLOG_HEADER">✠transmissions✠</div>
+            <!-- Admin post button -->
+            <button id="BLOG_ADMIN_BTN" onclick="toggleBlogForm()"> input </button>
+            <div id="BLOG_POST_FORM">
+                <div id="BLOG_PASSKEY_ROW">
+                    <input class="BLOG_INPUT" id="BLOG_PASSKEY" type="password" placeholder="passkey…">
+                    <button class="BLOG_SUBMIT" onclick="verifyBlogPasskey()" style="flex-shrink:0;padding:7px 12px;">enter</button>
+                </div>
+                <div id="BLOG_FORM_FIELDS" style="display:none;flex-direction:column;gap:6px;">
+                    <input class="BLOG_INPUT" id="BLOG_TITLE_INPUT" type="text" placeholder="title (required)">
+                    <textarea class="BLOG_INPUT" id="BLOG_BODY_INPUT" rows="4" placeholder="description — emoji welcome 🖤"></textarea>
+                    <input class="BLOG_INPUT" id="BLOG_IMG_INPUT" type="text" placeholder="image url (optional)">
+                    <input class="BLOG_INPUT" id="BLOG_TAGS_INPUT" type="text" placeholder="tags, separated, by, commas">
+                    <button class="BLOG_SUBMIT" onclick="submitBlogPost()">post entry</button>
+                </div>
             </div>
-            <div style="width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:rgba(10,8,6,0.8);">
-                <iframe src="" id="MOB_VIDEO_IFRAME" allowfullscreen allow="autoplay; encrypted-media" style="width:100%;height:100%;border:none;"></iframe>
-            </div>
+            <!-- Loading state -->
+            <div id="BLOG_LOADING">loading transmissions…</div>
+            <!-- Posts render here -->
+            <div id="BLOG_FEED"></div>
+            <a id="BLOG_TUMBLR_LINK" href="https://gutted-live.tumblr.com/" target="_blank">✠ contingency line ✠</a>
         </div>
     </div>
 
@@ -1525,7 +2261,7 @@
     <!-- Music Player -->
     <div id="MUSIC_PLAYER">
         <div id="MP_TRACK">
-            <span id="MP_LABEL">♪ now playing</span>
+            <span id="MP_LABEL"> signal disseminated: </span>
             <span id="MP_TITLE">—</span>
         </div>
         <div id="MP_PROGRESS_WRAP">
@@ -1557,6 +2293,63 @@
             </div>
             <button id="THEATER_CLOSE">✕ close theater</button>
             <div id="THEATER_LABEL">&#9769; now screening &#9769;</div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PIECE DETAIL OVERLAY
+    ══════════════════════════════════════════ -->
+    <div id="PIECE_DETAIL">
+        <div id="PD_TOPBAR">
+            <button id="PD_CLOSE" onclick="closePieceDetail()">✕ &nbsp; back to gallery</button>
+            <div id="PD_ACTIONS">
+                <button class="PD_ACTION_BTN" id="PD_SHARE_BTN" onclick="sharePiece()">⬡ share</button>
+                <button class="PD_ACTION_BTN" id="PD_DOWNLOAD_BTN" onclick="downloadPiece()">↓ download</button>
+            </div>
+        </div>
+        <div id="PD_BODY">
+            <div id="PD_LEFT">
+                <div id="PD_IMAGE_WRAP">
+                    <img id="PD_IMAGE" src="" alt="" draggable="false">
+                </div>
+                <div id="PD_ZOOM_CONTROLS">
+                    <button class="PD_ZOOM_BTN" onclick="adjustZoom(-0.25)" title="zoom out">−</button>
+                    <button class="PD_ZOOM_BTN" onclick="adjustZoom(0)"    title="reset zoom" style="font-size:9px;letter-spacing:1px;">1:1</button>
+                    <button class="PD_ZOOM_BTN" onclick="adjustZoom(+0.25)" title="zoom in">+</button>
+                </div>
+            </div>
+            <div id="PD_RIGHT">
+                <div id="PD_TITLE">—</div>
+                <div id="PD_DATE">—</div>
+                <div id="PD_DESC">—</div>
+                <div id="PD_TAGS"></div>
+                <div id="PD_RELATED_LABEL">related works</div>
+                <div id="PD_RELATED"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         BLOG POST DETAIL OVERLAY
+    ══════════════════════════════════════════ -->
+    <div id="BLOG_POST_DETAIL">
+        <div id="BPD_INNER">
+            <button class="BPD_CLOSE" onclick="closeBlogDetail()">✕ &nbsp; back</button>
+            <div id="BPD_TITLE">—</div>
+            <div id="BPD_DATE">—</div>
+            <img id="BPD_IMG" src="" alt="">
+            <div id="BPD_BODY">—</div>
+            <div id="BPD_TAGS"></div>
+            <div id="BPD_COMMENTS_SECTION">
+                <div id="BPD_COMMENTS_LABEL">replies &amp; comments</div>
+                <div id="BPD_COMMENTS_LIST"></div>
+                <div id="BPD_COMMENT_FORM">
+                    <div id="BPD_COMMENT_LABEL">leave a reply</div>
+                    <input class="BLOG_INPUT" id="BPD_COMMENTER_NAME" type="text" placeholder="name or handle…">
+                    <textarea class="BLOG_INPUT" id="BPD_COMMENT_TEXT" rows="3" placeholder="your reply… emoji welcome 🖤"></textarea>
+                    <button class="BLOG_SUBMIT" onclick="submitComment()">post reply</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1665,8 +2458,8 @@
                     <img src="https://raw.githubusercontent.com/GUTCUTZ/site-assets/main/ASSETSNIPLEFT.png"  alt="SNIP"  width="auto" height="40">
                     <a href="https://x.com/GUTTEDLIVE">XITTER</a>
                     <a href="https://www.instagram.com/gutted.live/">&#9769;INSTA</a>
-                    <a href="https://bsky.app/profile/gutted.online">&#9769;BL SKY</a>
-                    <a href="https://gutted-live.tumblr.com/">&#9769;TUMBLR</a>
+                    <a href="https://bsky.app/profile/gutted.live">&#9769;BL SKY</a>
+                    <a href="https://gutt3dlive.tumblr.com/">&#9769;TUMBLR</a>
                     <a href="https://www.inprnt.com/profile/gutcutz/">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&#9769;INPRINT&#9769;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</a>
                 </div>
 
@@ -1838,16 +2631,15 @@
                     </div>
                 </div>
 
-                <div id="GALLERY_GRID">
-                    <div class="img-slot"></div>
-                    <div class="img-slot"></div>
-                    <div class="img-slot"></div>
-                    <div class="img-slot"></div>
-                    <div class="img-slot"></div>
-                    <div class="img-slot"></div>
+                <!-- ── GALLERY SECTION HEADER ── -->
+                <div id="GALLERY_SECTION_HEADER">
+                    <h2>Archive</h2>
+                    <span>GUTTED GALLERY II &nbsp;·&nbsp; ONGOING</span>
                 </div>
 
-                <p>This is a blank template ready for artwork, photography, or visual assets.<br>Replace the slots above with your images.</p>
+                <!-- ── GALLERY GRID (populated by JS) ── -->
+                <div id="GALLERY_GRID"></div>
+                <div id="GALLERY_BUMPER"></div>
 
             </div>
         </section>
@@ -2331,7 +3123,648 @@ setTimeout(function() {
         snapToPanel(startPanel);
     });
 
+
+
+    /* ═══════════════════════════════════════════
+       GALLERY ITEMS DATA
+       → Add your artwork here: { src, thumb, title, date, desc, tags }
+       → thumb is optional; if omitted, src is used as thumbnail
+    ═══════════════════════════════════════════ */
+    const GALLERY_ITEMS = [
+        {
+            src:   "https://i.imgur.com/CSbyWFG.png",
+            title: "Signal Incomplete",
+            date:  "2024",
+            desc:  "Archive fragment. Signal lost somewhere between transmission and reception. The image persists.",
+            tags:  ["archive", "signal", "2024"]
+        },
+        {
+            src:   "https://i.imgur.com/NcUFnKp.jpeg",
+            title: "A Million Little Things",
+            date:  "2024",
+            desc:  "Decay and devotion in equal measure. What remains when the body forgets itself.",
+            tags:  ["body", "devotion", "decay"]
+        },
+        {
+            src:   "https://i.imgur.com/aHXAJyi.jpeg",
+            title: "Deth by a Thousand Cuts",
+            date:  "2024",
+            desc:  "Accumulated wounds. Each one sovereign. Each one small. Together they constitute an end.",
+            tags:  ["wounds", "accumulation", "2024"]
+        },
+        {
+            src:   "https://i.imgur.com/l68hKtX.jpeg",
+            title: "Archive in Progress",
+            date:  "2023",
+            desc:  "The archive is never finished. It continues to receive and reject in equal proportion.",
+            tags:  ["archive", "process"]
+        },
+        {
+            src:   "https://i.imgur.com/7XTHu17.png",
+            title: "Transmission I",
+            date:  "2023",
+            desc:  "First in a series of incomplete transmissions. The sender is unknown. The signal persists.",
+            tags:  ["transmission", "series"]
+        },
+        {
+            src:   "https://i.imgur.com/5LHemA5.jpeg",
+            title: "Soft Architecture",
+            date:  "2023",
+            desc:  "Structures that yield. Weight without resolution. Form in the process of becoming other.",
+            tags:  ["architecture", "form"]
+        },
+        {
+            src:   "https://i.imgur.com/oSDwaLn.gif",
+            title: "Recurring Dream",
+            date:  "2023",
+            desc:  "Motion captured in repetition. The loop is not imprisonment — it is insistence.",
+            tags:  ["motion", "loop", "gif"]
+        },
+        {
+            src:   "https://i.imgur.com/cq1ew0J.jpeg",
+            title: "Oblique Study",
+            date:  "2022",
+            desc:  "Approaching from an angle. The subject resists frontal address. This is the honest approach.",
+            tags:  ["study", "2022"]
+        },
+        {
+            src:   "https://i.imgur.com/zKr1Jxg.png",
+            title: "Residue",
+            date:  "2022",
+            desc:  "What is left after the event. Evidence without context. Memory as material.",
+            tags:  ["memory", "residue"]
+        },
+        {
+            src:   "https://i.imgur.com/88rQ5TJ.png",
+            title: "Held",
+            date:  "2022",
+            desc:  "Containment as tenderness. The held thing and the holder are changed by the act.",
+            tags:  ["tenderness", "form"]
+        },
+        {
+            src:   "https://i.imgur.com/rVZFSwX.jpeg",
+            title: "Attic Study I",
+            date:  "2022",
+            desc:  "Found in the upper room. Objects that outlived their utility. Still beautiful in their irrelevance.",
+            tags:  ["attic", "found", "objects"]
+        },
+        {
+            src:   "https://i.imgur.com/W1DcHnv.jpeg",
+            title: "Attic Study II",
+            date:  "2022",
+            desc:  "Continuation. The room changes with the light. The objects do not.",
+            tags:  ["attic", "study", "series"]
+        },
+        {
+            src:   "https://i.imgur.com/Zx3Mf2U.png",
+            title: "Static",
+            date:  "2021",
+            desc:  "White noise rendered visible. The signal is in the texture. Listen with your eyes.",
+            tags:  ["static", "texture", "2021"]
+        },
+        {
+            src:   "https://i.imgur.com/b9JyHFl.jpeg",
+            title: "Baroque Fragment",
+            date:  "2021",
+            desc:  "Excess as devotion. Ornament as prayer. The baroque does not apologize for wanting more.",
+            tags:  ["baroque", "fragment", "devotion"]
+        }
+    ];
+
+    /* ═══════════════════════════════════════════
+       RENDER GALLERY GRID
+    ═══════════════════════════════════════════ */
+    (function buildGallery() {
+        var grid = document.getElementById('GALLERY_GRID');
+        if (!grid) return;
+        GALLERY_ITEMS.forEach(function(item, i) {
+            var el = document.createElement('div');
+            el.className = 'gallery-item';
+            el.innerHTML =
+                '<span class="gallery-item-num">' + String(i + 1).padStart(2,'0') + '</span>' +
+                '<img src="' + (item.thumb || item.src) + '" loading="lazy" alt="' + item.title + '">' +
+                '<div class="gallery-item-overlay">' +
+                    '<div class="gallery-item-title">' + item.title + '</div>' +
+                    '<div class="gallery-item-date">' + item.date + '</div>' +
+                '</div>';
+            el.addEventListener('click', function() { openPieceDetail(i); });
+            grid.appendChild(el);
+        });
+    })();
+
+
+    /* ═══════════════════════════════════════════
+       PIECE DETAIL OVERLAY
+    ═══════════════════════════════════════════ */
+    var pdZoom = 1;
+    var pdCurrentIndex = 0;
+
+    function openPieceDetail(index) {
+        pdCurrentIndex = index;
+        pdZoom = 1;
+        var item = GALLERY_ITEMS[index];
+        document.getElementById('PD_IMAGE').src = item.src;
+        document.getElementById('PD_IMAGE').style.transform = 'scale(1)';
+        document.getElementById('PD_TITLE').textContent = item.title;
+        document.getElementById('PD_DATE').textContent = item.date;
+        document.getElementById('PD_DESC').textContent = item.desc || '';
+        // Tags
+        var tagsEl = document.getElementById('PD_TAGS');
+        tagsEl.innerHTML = '';
+        (item.tags || []).forEach(function(t) {
+            var span = document.createElement('span');
+            span.className = 'PD_TAG';
+            span.textContent = '#' + t;
+            tagsEl.appendChild(span);
+        });
+        // Related works (3 random others)
+        var relEl = document.getElementById('PD_RELATED');
+        relEl.innerHTML = '';
+        var others = GALLERY_ITEMS
+            .map(function(it,i){ return {it:it, i:i}; })
+            .filter(function(x){ return x.i !== index; })
+            .sort(function(){ return Math.random() - 0.5; })
+            .slice(0, 3);
+        others.forEach(function(x) {
+            var d = document.createElement('div');
+            d.className = 'PD_RELATED_ITEM';
+            d.innerHTML = '<img src="' + (x.it.thumb || x.it.src) + '" alt="' + x.it.title + '" loading="lazy">';
+            d.addEventListener('click', function() { openPieceDetail(x.i); });
+            relEl.appendChild(d);
+        });
+        // Update URL hash for sharing
+        history.replaceState(null, '', '#piece-' + index);
+        document.getElementById('PIECE_DETAIL').classList.add('open');
+        document.body.style.cursor = 'default';
+    }
+
+    function closePieceDetail() {
+        document.getElementById('PIECE_DETAIL').classList.remove('open');
+        history.replaceState(null, '', window.location.pathname + '#page3');
+        document.body.style.cursor = 'crosshair';
+    }
+
+    function adjustZoom(delta) {
+        if (delta === 0) { pdZoom = 1; }
+        else { pdZoom = Math.max(0.5, Math.min(4, pdZoom + delta)); }
+        document.getElementById('PD_IMAGE').style.transform = 'scale(' + pdZoom + ')';
+    }
+
+    function sharePiece() {
+        var url = window.location.href.split('#')[0] + '#piece-' + pdCurrentIndex;
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).then(function() {
+                var btn = document.getElementById('PD_SHARE_BTN');
+                var orig = btn.textContent;
+                btn.textContent = '✓ copied';
+                setTimeout(function(){ btn.textContent = orig; }, 2000);
+            });
+        }
+    }
+
+    function downloadPiece() {
+        var item = GALLERY_ITEMS[pdCurrentIndex];
+        var a = document.createElement('a');
+        a.href = item.src;
+        a.download = item.title.replace(/\s+/g,'-').toLowerCase() + '.jpg';
+        a.target = '_blank';
+        a.click();
+    }
+
+    // Open piece from URL hash on load
+    window.addEventListener('load', function() {
+        var hash = window.location.hash;
+        var m = hash.match(/^#piece-(\d+)$/);
+        if (m) {
+            var idx = parseInt(m[1]);
+            if (idx >= 0 && idx < GALLERY_ITEMS.length) {
+                setTimeout(function(){ openPieceDetail(idx); }, 600);
+            }
+        }
+    });
+
+    // Keyboard close
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closePieceDetail();
+            closeBlogDetail();
+        }
+    });
+
+
+    /* ═══════════════════════════════════════════
+       LUXURY IMAGE STRIP — DRAG ENGINE
+       Replaces CSS animation with JS-driven momentum
+    ═══════════════════════════════════════════ */
+    (function initImageStrip() {
+        var strip    = document.getElementById('IMAGE_STRIP');
+        var track    = strip ? strip.querySelector('.image-track') : null;
+        if (!strip || !track) return;
+
+        // Pause CSS animation — we own this now
+        track.style.animation = 'none';
+        track.style.transform  = 'translateX(0px)';
+
+        var AUTO_SPEED   = 0.55;     // px per frame auto-advance
+        var FRICTION     = 0.93;     // momentum decay
+        var MIN_VELOCITY = 0.01;
+
+        var pos      = 0;            // current translateX
+        var vel      = 0;            // current velocity
+        var dragging = false;
+        var lastX    = 0;
+        var rafId    = null;
+        var halfW    = 0;            // half of track width (for seamless wrap)
+
+        function measureHalf() {
+            halfW = track.scrollWidth / 2;
+        }
+        measureHalf();
+        window.addEventListener('resize', measureHalf);
+
+        function wrap() {
+            if (halfW <= 0) return;
+            while (pos < -halfW) pos += halfW;
+            while (pos >      0) pos -= halfW;
+        }
+
+        function frame() {
+            if (!dragging) {
+                vel = vel * FRICTION + (1 - FRICTION) * (-AUTO_SPEED);
+                if (Math.abs(vel) < MIN_VELOCITY) vel = -AUTO_SPEED;
+            }
+            pos += vel;
+            wrap();
+            track.style.transform = 'translateX(' + pos + 'px)';
+            rafId = requestAnimationFrame(frame);
+        }
+        rafId = requestAnimationFrame(frame);
+
+        function onDown(e) {
+            // Don't intercept if whole-page is being dragged for panel navigation
+            if (e.type === 'mousedown' && e.button !== 0) return;
+            dragging = true;
+            vel = 0;
+            lastX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+            strip.classList.add('is-dragging');
+            if (e.type === 'mousedown') e.preventDefault();
+        }
+
+        function onMove(e) {
+            if (!dragging) return;
+            var x   = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+            var dx  = x - lastX;
+            vel     = dx * 0.85;
+            pos    += dx;
+            wrap();
+            track.style.transform = 'translateX(' + pos + 'px)';
+            lastX = x;
+            e.stopPropagation();
+        }
+
+        function onUp() {
+            if (!dragging) return;
+            dragging = false;
+            strip.classList.remove('is-dragging');
+            // vel already set from last move — momentum takes over in frame()
+        }
+
+        strip.addEventListener('mousedown',  onDown, { passive: false });
+        strip.addEventListener('touchstart', onDown, { passive: true });
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('touchmove', onMove, { passive: false });
+        window.addEventListener('mouseup',   onUp);
+        window.addEventListener('touchend',  onUp);
+    })();
+
+
+    /* ═══════════════════════════════════════════
+       BLOG SYSTEM
+       Tries Tumblr legacy JSONP first; falls back
+       to localStorage-based custom posts.
+    ═══════════════════════════════════════════ */
+    var BLOG_PASSKEY    = '2B4D';   // ← change this to your secret passkey
+    var blogPosts       = [];
+    var currentBlogPost = null;
+
+    // ── Load posts ──
+    function loadBlog() {
+        // First render any local (custom) posts
+        var saved = localStorage.getItem('gutted_blog_posts');
+        var localPosts = saved ? JSON.parse(saved) : [];
+        // Then try to fetch Tumblr via JSONP
+        tryFetchTumblr(localPosts);
+    }
+
+    function tryFetchTumblr(localPosts) {
+        // Tumblr legacy API via JSONP callback
+        var callbackName = 'tumblrAPICallback';
+        var timeout = setTimeout(function() {
+            // Tumblr didn't respond — show local posts only
+            renderBlogFeed(localPosts);
+        }, 5000);
+
+        window[callbackName] = function(data) {
+            clearTimeout(timeout);
+            var tumblrPosts = [];
+            try {
+                var posts = data.posts || data['posts'] || [];
+                posts.forEach(function(p) {
+                    tumblrPosts.push({
+                        id:      'tmblr_' + (p.id || Math.random()),
+                        title:   p['regular-title'] || p['quote-text'] || p['link-text'] || '🂡',
+                        body:    p['regular-body'] || p['link-description'] || p['quote-text'] || '',
+                        img:     p['photo-url-1280'] || (p.photos && p.photos[0] && p.photos[0].original && p.photos[0].original.url) || '',
+                        tags:    p.tags || [],
+                        date:    p.date || '',
+                        url:     p['url-with-slug'] || p.url || 'https://gutted-live.tumblr.com/',
+                        source:  'tumblr'
+                    });
+                });
+            } catch(err) {}
+            renderBlogFeed(tumblrPosts.concat(localPosts));
+        };
+
+        var script   = document.createElement('script');
+        script.src   = 'https://gutted-live.tumblr.com/api/read/json?callback=' + callbackName + '&num=20';
+        script.onerror = function() {
+            clearTimeout(timeout);
+            renderBlogFeed(localPosts);
+        };
+        document.head.appendChild(script);
+    }
+
+    function renderBlogFeed(posts) {
+        var loading = document.getElementById('BLOG_LOADING');
+        var feed    = document.getElementById('BLOG_FEED');
+        if (loading) loading.style.display = 'none';
+        if (!feed) return;
+        feed.innerHTML = '';
+        blogPosts = posts;
+
+        if (!posts.length) {
+            feed.innerHTML = '<div style="font-size:0.55rem;letter-spacing:3px;color:rgba(195,182,165,0.25);text-align:center;padding:20px 0;">no transmissions yet</div>';
+            return;
+        }
+
+        posts.forEach(function(p, i) {
+            var card = document.createElement('div');
+            card.className = 'blog-post-card';
+            var imgHTML = '';
+            if (p.img) {
+                imgHTML = '<img class="blog-post-img has-img" src="' + p.img + '" loading="lazy" alt="">';
+            }
+            var tagsHTML = (p.tags || []).map(function(t){
+                return '<span class="blog-post-tag">' + t + '</span>';
+            }).join('');
+
+            // Strip HTML from body for preview
+            var bodyText = (p.body || '').replace(/<[^>]*>/g,'').trim();
+            var dateText = p.date ? p.date.split(' ')[0] : '';
+
+            card.innerHTML =
+                imgHTML +
+                '<div class="blog-post-date">' + dateText + '</div>' +
+                '<div class="blog-post-title">' + (p.title || '✦') + '</div>' +
+                '<div class="blog-post-body">' + bodyText + '</div>' +
+                (tagsHTML ? '<div class="blog-post-tags">' + tagsHTML + '</div>' : '');
+
+            card.addEventListener('click', function() {
+                if (p.source === 'tumblr') {
+                    window.open(p.url || 'https://gutted-live.tumblr.com/', '_blank');
+                } else {
+                    openBlogDetail(p);
+                }
+            });
+            feed.appendChild(card);
+        });
+    }
+
+    // ── Admin blog form ──
+    function toggleBlogForm() {
+        var form = document.getElementById('BLOG_POST_FORM');
+        form.classList.toggle('open');
+        if (!form.classList.contains('open')) return;
+        document.getElementById('BLOG_PASSKEY').focus();
+    }
+
+    function verifyBlogPasskey() {
+        var pk = document.getElementById('BLOG_PASSKEY').value;
+        if (pk === BLOG_PASSKEY) {
+            document.getElementById('BLOG_PASSKEY_ROW').style.display = 'none';
+            document.getElementById('BLOG_FORM_FIELDS').style.display = 'flex';
+            document.getElementById('BLOG_TITLE_INPUT').focus();
+        } else {
+            document.getElementById('BLOG_PASSKEY').style.borderColor = 'rgba(176,59,17,0.7)';
+            setTimeout(function(){
+                document.getElementById('BLOG_PASSKEY').style.borderColor = '';
+            }, 1000);
+        }
+    }
+
+    function submitBlogPost() {
+        var title = document.getElementById('BLOG_TITLE_INPUT').value.trim();
+        if (!title) {
+            document.getElementById('BLOG_TITLE_INPUT').style.borderColor = 'rgba(176,59,17,0.7)';
+            return;
+        }
+        var post = {
+            id:    'local_' + Date.now(),
+            title: title,
+            body:  document.getElementById('BLOG_BODY_INPUT').value,
+            img:   document.getElementById('BLOG_IMG_INPUT').value.trim(),
+            tags:  document.getElementById('BLOG_TAGS_INPUT').value.split(',').map(function(t){ return t.trim(); }).filter(Boolean),
+            date:  new Date().toISOString().split('T')[0],
+            source: 'local',
+            comments: []
+        };
+        var saved = localStorage.getItem('gutted_blog_posts');
+        var localPosts = saved ? JSON.parse(saved) : [];
+        localPosts.unshift(post);
+        localStorage.setItem('gutted_blog_posts', JSON.stringify(localPosts));
+        // Reset form
+        ['BLOG_TITLE_INPUT','BLOG_BODY_INPUT','BLOG_IMG_INPUT','BLOG_TAGS_INPUT'].forEach(function(id){
+            document.getElementById(id).value = '';
+        });
+        document.getElementById('BLOG_POST_FORM').classList.remove('open');
+        document.getElementById('BLOG_PASSKEY_ROW').style.display = '';
+        document.getElementById('BLOG_FORM_FIELDS').style.display = 'none';
+        document.getElementById('BLOG_PASSKEY').value = '';
+        document.getElementById('BLOG_LOADING').style.display = '';
+        loadBlog();
+    }
+
+    // ── Blog post detail view ──
+    function openBlogDetail(post) {
+        currentBlogPost = post;
+        document.getElementById('BPD_TITLE').textContent = post.title || '✦';
+        document.getElementById('BPD_DATE').textContent  = post.date || '';
+        var imgEl = document.getElementById('BPD_IMG');
+        if (post.img) {
+            imgEl.src = post.img;
+            imgEl.classList.add('show');
+        } else {
+            imgEl.src = '';
+            imgEl.classList.remove('show');
+        }
+        // Body (may have HTML from Tumblr, sanitize for local)
+        document.getElementById('BPD_BODY').innerHTML = post.body || '';
+        // Tags
+        var tagsEl = document.getElementById('BPD_TAGS');
+        tagsEl.innerHTML = (post.tags || []).map(function(t){
+            return '<span class="BPD_TAG">#' + t + '</span>';
+        }).join('');
+        // Comments
+        renderComments(post.comments || []);
+        document.getElementById('BLOG_POST_DETAIL').classList.add('open');
+    }
+
+    function closeBlogDetail() {
+        document.getElementById('BLOG_POST_DETAIL').classList.remove('open');
+        currentBlogPost = null;
+    }
+
+    function renderComments(comments) {
+        var list = document.getElementById('BPD_COMMENTS_LIST');
+        list.innerHTML = '';
+        if (!comments || !comments.length) {
+            list.innerHTML = '<div style="font-size:0.52rem;letter-spacing:2px;color:rgba(195,182,165,0.22);padding:8px 0;">no replies yet</div>';
+            return;
+        }
+        comments.forEach(function(c) {
+            var d = document.createElement('div');
+            d.className = 'bpd-comment';
+            d.innerHTML =
+                '<div class="bpd-comment-name">' + (c.name || 'anonymous') + ' · ' + (c.date || '') + '</div>' +
+                '<div class="bpd-comment-text">' + (c.text || '') + '</div>';
+            list.appendChild(d);
+        });
+    }
+
+    function submitComment() {
+        if (!currentBlogPost) return;
+        var name = document.getElementById('BPD_COMMENTER_NAME').value.trim() || 'anonymous';
+        var text = document.getElementById('BPD_COMMENT_TEXT').value.trim();
+        if (!text) return;
+        if (!currentBlogPost.comments) currentBlogPost.comments = [];
+        currentBlogPost.comments.push({
+            name: name,
+            text: text,
+            date: new Date().toISOString().split('T')[0]
+        });
+        // Save back to localStorage if it's a local post
+        if (currentBlogPost.source === 'local') {
+            var saved = localStorage.getItem('gutted_blog_posts');
+            var localPosts = saved ? JSON.parse(saved) : [];
+            for (var i = 0; i < localPosts.length; i++) {
+                if (localPosts[i].id === currentBlogPost.id) {
+                    localPosts[i].comments = currentBlogPost.comments;
+                    break;
+                }
+            }
+            localStorage.setItem('gutted_blog_posts', JSON.stringify(localPosts));
+        }
+        renderComments(currentBlogPost.comments);
+        document.getElementById('BPD_COMMENTER_NAME').value = '';
+        document.getElementById('BPD_COMMENT_TEXT').value = '';
+    }
+
+    // Init blog on load
+    loadBlog();
+
+
+    /* ═══════════════════════════════════════════
+       MOBILE MUSIC PLAYER
+       Mirrors AUDIO_EL from desktop player
+    ═══════════════════════════════════════════ */
+    (function initMobPlayer() {
+        var mobTitle    = document.getElementById('MOB_MP_TITLE');
+        var mobFill     = document.getElementById('MOB_MP_PROGRESS_FILL');
+        var mobProg     = document.getElementById('MOB_MP_PROGRESS_WRAP');
+        var mobList     = document.getElementById('MOB_MP_PLAYLIST_WRAP');
+        var mobPlay     = document.getElementById('MOB_MP_PLAYPAUSE');
+        var mobPrev     = document.getElementById('MOB_MP_PREV');
+        var mobNext     = document.getElementById('MOB_MP_NEXT');
+        if (!mobTitle) return;
+
+        // Sync title display from desktop player
+        function syncTitle() {
+            var dt = document.getElementById('MP_TITLE');
+            if (dt) mobTitle.textContent = dt.textContent;
+        }
+        // Sync play icon
+        function syncPlayIcon() {
+            var dp = document.getElementById('MP_PLAYPAUSE');
+            if (dp && mobPlay) mobPlay.innerHTML = dp.innerHTML;
+        }
+        // Sync progress fill
+        function syncProgress() {
+            var df = document.getElementById('MP_PROGRESS_FILL');
+            if (df && mobFill) mobFill.style.width = df.style.width;
+        }
+
+        // Build playlist
+        if (mobList && typeof PLAYLIST !== 'undefined') {
+            PLAYLIST.forEach(function(track, i) {
+                var item = document.createElement('div');
+                item.className = 'MOB_TRACK_ITEM';
+                item.textContent = track.title;
+                item.addEventListener('click', function() {
+                    if (typeof mpLoad === 'function') mpLoad(i, true);
+                });
+                mobList.appendChild(item);
+            });
+        }
+
+        // Sync active track in mobile list
+        function syncActiveTrack() {
+            if (typeof mpIndex === 'undefined') return;
+            var items = mobList ? mobList.querySelectorAll('.MOB_TRACK_ITEM') : [];
+            items.forEach(function(el,i){ el.classList.toggle('active', i === mpIndex); });
+        }
+
+        // Attach control buttons (these call desktop player functions)
+        if (mobPlay) mobPlay.addEventListener('click', function() {
+            var btn = document.getElementById('MP_PLAYPAUSE');
+            if (btn) btn.click();
+            setTimeout(syncPlayIcon, 50);
+        });
+        if (mobPrev) mobPrev.addEventListener('click', function() {
+            var btn = document.getElementById('MP_PREV');
+            if (btn) btn.click();
+            setTimeout(function(){ syncTitle(); syncActiveTrack(); syncPlayIcon(); }, 100);
+        });
+        if (mobNext) mobNext.addEventListener('click', function() {
+            var btn = document.getElementById('MP_NEXT');
+            if (btn) btn.click();
+            setTimeout(function(){ syncTitle(); syncActiveTrack(); syncPlayIcon(); }, 100);
+        });
+
+        // Progress click
+        if (mobProg) mobProg.addEventListener('click', function(e) {
+            var rect = e.currentTarget.getBoundingClientRect();
+            var pct  = (e.clientX - rect.left) / rect.width;
+            var au   = document.getElementById('AUDIO_EL');
+            if (au && au.duration) au.currentTime = pct * au.duration;
+        });
+
+        // Sync on audio events
+        var au = document.getElementById('AUDIO_EL');
+        if (au) {
+            au.addEventListener('timeupdate', function() {
+                if (au.duration) mobFill.style.width = (au.currentTime / au.duration * 100) + '%';
+            });
+            au.addEventListener('play',  function(){ syncPlayIcon(); syncTitle(); syncActiveTrack(); });
+            au.addEventListener('pause', function(){ syncPlayIcon(); });
+            au.addEventListener('ended', function(){ syncPlayIcon(); });
+        }
+
+        // Initial sync after a short delay
+        setTimeout(function(){ syncTitle(); syncPlayIcon(); syncActiveTrack(); }, 800);
+    })();
+
     </script>
 
 </body>
 </html>
+
